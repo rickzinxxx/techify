@@ -19,8 +19,8 @@ export default function Stats() {
               viewport={{ once: true }}
               className="text-center py-12 md:py-0 px-8"
             >
-              <div className="text-6xl md:text-7xl font-black text-brand neon-glow mb-4 tracking-tighter">{stat.value}</div>
-              <div className="text-white font-black uppercase tracking-[0.2em] text-xs md:text-sm opacity-40">{stat.label}</div>
+              <div className="text-5xl md:text-6xl font-black text-brand neon-glow mb-4 tracking-tighter">{stat.value}</div>
+              <div className="text-white font-black uppercase tracking-[0.2em] text-[10px] md:text-xs opacity-40">{stat.label}</div>
             </motion.div>
           ))}
         </div>
