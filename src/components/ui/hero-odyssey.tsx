@@ -127,7 +127,12 @@ export const Lightning: React.FC<LightningProps> = ({
     `;
 
     const fragmentShaderSource = `
+      #ifdef GL_FRAGMENT_PRECISION_HIGH
+      precision highp float;
+      #else
       precision mediump float;
+      #endif
+
       uniform vec2 iResolution;
       uniform float iTime;
       uniform float uHue;
@@ -135,9 +140,8 @@ export const Lightning: React.FC<LightningProps> = ({
       uniform float uSpeed;
       uniform float uIntensity;
       uniform float uSize;
+      uniform int uOctaves;
       
-      #define OCTAVE_COUNT 10
-
       vec3 hsv2rgb(vec3 c) {
           vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0,4.0,2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
           return c.z * mix(vec3(1.0), rgb, c.y);
@@ -177,7 +181,9 @@ export const Lightning: React.FC<LightningProps> = ({
       float fbm(vec2 p) {
           float value = 0.0;
           float amplitude = 0.5;
-          for (int i = 0; i < OCTAVE_COUNT; ++i) {
+          // Use a loop that WebGL 1.0 can handle (constant iteration count or simple condition)
+          for (int i = 0; i < 10; ++i) {
+              if (i >= uOctaves) break;
               value += amplitude * noise(p);
               p *= rotate2d(0.45);
               p *= 2.0;
@@ -258,12 +264,30 @@ export const Lightning: React.FC<LightningProps> = ({
     const uSpeedLocation = gl.getUniformLocation(program, "uSpeed");
     const uIntensityLocation = gl.getUniformLocation(program, "uIntensity");
     const uSizeLocation = gl.getUniformLocation(program, "uSize");
+    const uOctavesLocation = gl.getUniformLocation(program, "uOctaves");
 
     const startTime = performance.now();
+    let animationFrameId: number;
+    let isVisible = true;
+
+    const observer = new IntersectionObserver((entries) => {
+      isVisible = entries[0].isIntersecting;
+    });
+    observer.observe(canvas);
+
+    const isMobile = window.innerWidth < 768;
+    const octaveCount = isMobile ? 4 : 8; // Significantly faster for mobile
+
     const render = () => {
+      if (!isVisible) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
+      
       resizeCanvas();
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
+      
       const currentTime = performance.now();
       gl.uniform1f(iTimeLocation, (currentTime - startTime) / 1000.0);
       gl.uniform1f(uHueLocation, hue);
@@ -271,13 +295,17 @@ export const Lightning: React.FC<LightningProps> = ({
       gl.uniform1f(uSpeedLocation, speed);
       gl.uniform1f(uIntensityLocation, intensity);
       gl.uniform1f(uSizeLocation, size);
+      gl.uniform1i(uOctavesLocation, octaveCount);
+      
       gl.drawArrays(gl.TRIANGLES, 0, 6);
-      requestAnimationFrame(render);
+      animationFrameId = requestAnimationFrame(render);
     };
-    requestAnimationFrame(render);
+    animationFrameId = requestAnimationFrame(render);
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
+      cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
     };
   }, [hue, xOffset, speed, intensity, size]);
 

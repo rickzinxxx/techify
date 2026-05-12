@@ -162,13 +162,26 @@ export function ShaderAnimation() {
     window.addEventListener("resize", onWindowResize, false)
 
     // Animation loop
+    let isVisible = true;
+    const observer = new IntersectionObserver((entries) => {
+      isVisible = entries[0].isIntersecting;
+    }, { threshold: 0.1 });
+    observer.observe(container);
+
     const animate = () => {
       sceneRef.current.animationId = requestAnimationFrame(animate)
+      if (!isVisible) return;
+      
       uniforms.time.value += 0.05
       renderer.render(scene, camera)
     }
 
     animate()
+    
+    return () => {
+      window.removeEventListener("resize", onWindowResize);
+      observer.disconnect();
+    };
   }
 
   return (

@@ -45,8 +45,8 @@ export default function Services() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, idx) => (
             <div key={idx} className="relative group h-full">
-              {/* Lightning Animation Effect Behind */}
-              <div className="absolute -inset-4 opacity-0 group-hover:opacity-80 transition-opacity duration-700 overflow-hidden pointer-events-none z-0 rounded-3xl blur-xl">
+              {/* Lightning Animation Effect Behind - Disabled on mobile/touch for performance */}
+              <div className="hidden lg:block absolute -inset-4 opacity-0 group-hover:opacity-80 transition-opacity duration-700 overflow-hidden pointer-events-none z-0 rounded-3xl blur-xl">
                 <Lightning 
                   hue={service.theme === "blue-pink" ? 320 : service.theme === "blue-orange" ? 210 : service.theme === "purple" ? 280 : 30}
                   speed={2}
@@ -55,8 +55,8 @@ export default function Services() {
                 />
               </div>
 
-              {/* Shader Animation Effect Behind */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 overflow-hidden pointer-events-none z-0 rounded-3xl blur-md">
+              {/* Shader Animation Effect Behind - Disabled on mobile/touch for performance */}
+              <div className="hidden lg:block absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 overflow-hidden pointer-events-none z-0 rounded-3xl blur-md">
                 <ShaderAnimation />
               </div>
 

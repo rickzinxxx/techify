@@ -199,6 +199,57 @@
   border-top: 1px solid rgba(132, 204, 22, 0.1);
 }
 
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+  }
+  
+  body {
+    @apply bg-black text-white antialiased overflow-x-hidden selection:bg-brand selection:text-black;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Optimized animations for mobile */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Ensure WebGL and heavy elements don't block scroll */
+  canvas {
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  .text-shadow-glow {
+    text-shadow: 0 0 20px rgba(132, 204, 22, 0.4);
+  }
+  
+  .backdrop-blur-ultra {
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 @keyframes animStar {
   from { transform: translateY(0px); }
   to { transform: translateY(-2000px); }

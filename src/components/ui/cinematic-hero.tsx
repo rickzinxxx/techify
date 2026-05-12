@@ -200,6 +200,9 @@ export function CinematicHero({
   const requestRef = useRef<number>(0);
 
   useEffect(() => {
+    // Disable parallax on touch devices for better performance
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       cancelAnimationFrame(requestRef.current);
       
@@ -251,9 +254,9 @@ export function CinematicHero({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=7000",
+          end: isMobile ? "+=3000" : "+=7000", // Reduced for mobile
           pin: true,
-          scrub: 1,
+          scrub: isMobile ? 0.5 : 1, // Snappier scrub on mobile
           anticipatePin: 1,
         },
       });
