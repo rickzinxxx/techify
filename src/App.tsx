@@ -5,6 +5,7 @@ import Hero from "./components/Hero";
 // Lazy load below-the-fold components
 const Stats = lazy(() => import("./components/Stats"));
 const Services = lazy(() => import("./components/Services"));
+const About = lazy(() => import("./components/About"));
 const Academy = lazy(() => import("./components/Academy"));
 const Footer = lazy(() => import("./components/Footer"));
 const Courses = lazy(() => import("./components/Courses"));
@@ -25,6 +26,7 @@ export default function App() {
             <Suspense fallback={<LoadingFallback />}>
               <Stats />
               <Services />
+              <About />
               <Academy onExplore={() => setActiveTab("Cursos")} />
             </Suspense>
           </>
