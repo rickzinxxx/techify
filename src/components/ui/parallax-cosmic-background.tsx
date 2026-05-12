@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 interface CosmicParallaxBgProps {
   /**
@@ -24,6 +24,19 @@ interface CosmicParallaxBgProps {
   className?: string;
 }
 
+// Generate random star positions - moved outside to avoid re-creation
+const generateStarBoxShadow = (count: number): string => {
+  let shadows = [];
+  
+  for (let i = 0; i < count; i++) {
+    const x = Math.floor(Math.random() * 2000);
+    const y = Math.floor(Math.random() * 2000);
+    shadows.push(`${x}px ${y}px #FFF`);
+  }
+  
+  return shadows.join(', ');
+};
+
 /**
  * A cosmic parallax background component with animated stars and text
  */
@@ -33,32 +46,15 @@ const CosmicParallaxBg: React.FC<CosmicParallaxBgProps> = ({
   loop = true,
   className = '',
 }) => {
-  const [smallStars, setSmallStars] = useState<string>('');
-  const [mediumStars, setMediumStars] = useState<string>('');
-  const [bigStars, setBigStars] = useState<string>('');
+  // Memoize star shadows so they remain stable across re-renders
+  const smallStars = useMemo(() => generateStarBoxShadow(600), []);
+  const mediumStars = useMemo(() => generateStarBoxShadow(150), []);
+  const bigStars = useMemo(() => generateStarBoxShadow(80), []);
   
   // Split the text by commas and trim whitespace
   const textParts = text.split(',').map(part => part.trim());
   
-  // Generate random star positions
-  const generateStarBoxShadow = (count: number): string => {
-    let shadows = [];
-    
-    for (let i = 0; i < count; i++) {
-      const x = Math.floor(Math.random() * 2000);
-      const y = Math.floor(Math.random() * 2000);
-      shadows.push(`${x}px ${y}px #FFF`);
-    }
-    
-    return shadows.join(', ');
-  };
-  
   useEffect(() => {
-    // Generate star shadows when component mounts
-    setSmallStars(generateStarBoxShadow(700));
-    setMediumStars(generateStarBoxShadow(200));
-    setBigStars(generateStarBoxShadow(100));
-    
     // Set animation iteration based on loop prop
     document.documentElement.style.setProperty(
       '--animation-iteration', 
@@ -68,20 +64,20 @@ const CosmicParallaxBg: React.FC<CosmicParallaxBgProps> = ({
   
   return (
     <div className={`cosmic-parallax-container ${className}`}>
-      {/* Stars layers */}
+      {/* Stars layers with hardware acceleration hint */}
       <div 
         id="stars" 
-        style={{ boxShadow: smallStars }}
+        style={{ boxShadow: smallStars, willChange: 'transform' }}
         className="cosmic-stars"
       ></div>
       <div 
         id="stars2" 
-        style={{ boxShadow: mediumStars }}
+        style={{ boxShadow: mediumStars, willChange: 'transform' }}
         className="cosmic-stars-medium"
       ></div>
       <div 
         id="stars3" 
-        style={{ boxShadow: bigStars }}
+        style={{ boxShadow: bigStars, willChange: 'transform' }}
         className="cosmic-stars-large"
       ></div>
       

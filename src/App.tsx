@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import Stats from "./components/Stats";
-import Services from "./components/Services";
-import Academy from "./components/Academy";
-import Footer from "./components/Footer";
-import Courses from "./components/Courses";
-import Chatbot from "./components/Chatbot";
+
+// Lazy load below-the-fold components
+const Stats = lazy(() => import("./components/Stats"));
+const Services = lazy(() => import("./components/Services"));
+const Academy = lazy(() => import("./components/Academy"));
+const Footer = lazy(() => import("./components/Footer"));
+const Courses = lazy(() => import("./components/Courses"));
+const Chatbot = lazy(() => import("./components/Chatbot"));
+
+const LoadingFallback = () => <div className="h-20 bg-black" />;
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("Início");
@@ -18,16 +22,22 @@ export default function App() {
         {activeTab === "Início" ? (
           <>
             <Hero />
-            <Stats />
-            <Services />
-            <Academy onExplore={() => setActiveTab("Cursos")} />
+            <Suspense fallback={<LoadingFallback />}>
+              <Stats />
+              <Services />
+              <Academy onExplore={() => setActiveTab("Cursos")} />
+            </Suspense>
           </>
         ) : (
-          <Courses />
+          <Suspense fallback={<div className="min-h-screen pt-24 text-center">Carregando...</div>}>
+            <Courses />
+          </Suspense>
         )}
       </main>
-      <Footer />
-      <Chatbot />
+      <Suspense fallback={null}>
+        <Footer />
+        {activeTab === "Cursos" && <Chatbot />}
+      </Suspense>
     </div>
   );
 }
