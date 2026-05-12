@@ -7,8 +7,8 @@ export default function Hero() {
     { text: "Cursos Grátis", icon: "🎓" },
     { text: "8 Idiomas", icon: "🌍" },
     { text: "IA Tutora 24/7", icon: "🤖" },
-    { text: "Massagem", icon: "💆" },
-    { text: "Programação", icon: "💻" },
+    { text: "Desenvolvimento", icon: "💻" },
+    { text: "Programação", icon: "🚀" },
     { text: "Certificados", icon: "🏆" },
   ];
 
@@ -106,11 +106,6 @@ export default function Hero() {
             
             <button className="h-14 px-10 rounded-xl bg-white text-black font-bold border border-brand/20 hover:bg-white/90 transition-all">
               Ver Portfólio
-            </button>
-
-            <button className="h-14 px-10 rounded-xl bg-white text-brand font-bold border border-brand/20 hover:bg-white/90 transition-all flex items-center gap-2">
-              <GraduationCap size={20} className="text-purple-500" />
-              <span className="text-purple-600">Academia Grátis</span>
             </button>
           </motion.div>
 

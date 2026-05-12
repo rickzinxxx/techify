@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "motion/react";
 import { 
   Home, 
@@ -10,7 +11,7 @@ import {
   Columns3, 
   ShieldCheck, 
   BarChart3, 
-  Wand2 
+  Wand2
 } from "lucide-react";
 import { GlassDock, GlassEffect } from "./ui/liquid-glass";
 
@@ -60,25 +61,27 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
             <span className="text-xl font-bold tracking-tight">Techify</span>
           </div>
           
-          <div className="flex items-center gap-4">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => setActiveTab(item.label)}
-                className={`flex items-center gap-2 text-sm font-medium transition-all whitespace-nowrap cursor-pointer relative px-3 py-2 rounded-lg ${
-                  activeTab === item.label ? "text-brand bg-white/5" : "text-gray-400 hover:text-white hover:bg-white/5"
-                }`}
-              >
-                <item.icon size={16} />
-                {item.label}
-                {activeTab === item.label && (
-                  <motion.div 
-                    layoutId="nav-underline"
-                    className="absolute bottom-0 left-2 right-2 h-0.5 bg-brand rounded-full"
-                  />
-                )}
-              </button>
-            ))}
+          <div className="flex items-center gap-4 flex-1 justify-end overflow-hidden">
+            <div className="flex items-center gap-1 overflow-x-auto no-scrollbar scroll-smooth px-2">
+              {navItems.map((item) => (
+                <button
+                  key={item.label}
+                  onClick={() => setActiveTab(item.label)}
+                  className={`flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer relative px-2.5 py-2 rounded-lg ${
+                    activeTab === item.label ? "text-brand bg-white/5" : "text-gray-400 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  <item.icon size={13} />
+                  {item.label}
+                  {activeTab === item.label && (
+                    <motion.div 
+                      layoutId="nav-underline"
+                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-brand rounded-full"
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </nav>

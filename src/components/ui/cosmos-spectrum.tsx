@@ -121,7 +121,14 @@ export function CosmicSpectrum({ color = "original", blur = false, className = "
       )
 
     // Refresh on resize
-    window.addEventListener("resize", () => ScrollTrigger.refresh())
+    const onResize = () => ScrollTrigger.refresh();
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      if (ScrollTrigger.getById("cosmic-spectrum")) {
+        ScrollTrigger.getById("cosmic-spectrum").kill();
+      }
+    };
   }
 
   const currentColors = colorThemes[color]

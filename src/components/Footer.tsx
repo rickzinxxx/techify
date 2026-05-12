@@ -7,7 +7,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="py-20 bg-black border-t border-white/5">
+    <footer className="py-16 bg-black border-t border-white/5">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
           {/* Logo & Description */}
@@ -16,8 +16,8 @@ export default function Footer() {
               <div className="w-1.5 h-8 bg-brand rounded-full"></div>
               <span className="text-2xl font-bold tracking-tight">Techify</span>
             </div>
-            <p className="text-gray-400 mb-8 max-w-sm leading-relaxed">
-              Inovação digital para o seu negócio. Criamos plataformas web e identidade visual que geram resultados reais.
+            <p className="text-gray-400 mb-8 max-w-sm leading-relaxed text-sm">
+              Inovação digital e design de alta performance. Criamos experiências que conectam marcas a resultados.
             </p>
             <a 
               href="#" 
@@ -26,16 +26,18 @@ export default function Footer() {
               <div className="p-2 rounded-lg bg-brand/10 border border-brand/20">
                 <Instagram size={18} />
               </div>
-              @techify.oficial
+              <span className="text-sm">@techify.digital</span>
             </a>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-brand font-bold uppercase tracking-widest text-sm mb-8">Links Rápidos</h4>
-            <div className="grid grid-cols-2 gap-4">
-              {links.map((link) => (
-                <a key={link} href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+            <h4 className="text-white/40 font-black uppercase tracking-[0.2em] text-[10px] mb-8">Navegação</h4>
+            <div className="grid grid-cols-2 gap-y-4 gap-x-8">
+              {[
+                "Início", "Portfólio", "Academy", "Cases", "Equipe", "Blog"
+              ].map((link) => (
+                <a key={link} href="#" className="text-gray-500 hover:text-brand transition-colors text-sm font-medium">
                   {link}
                 </a>
               ))}
@@ -44,15 +46,19 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-brand font-bold uppercase tracking-widest text-sm mb-8">Contato</h4>
+            <h4 className="text-white/40 font-black uppercase tracking-[0.2em] text-[10px] mb-8">Contato</h4>
             <div className="space-y-4 mb-8">
-              <a href="mailto:contato@techify.com" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors">
-                <Mail size={18} className="text-brand" />
-                contato@techify.com
+              <a href="mailto:contato@techify.com.br" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors group">
+                <div className="p-2 rounded-lg bg-brand/10 border border-brand/20 group-hover:bg-brand/20">
+                  <Mail size={16} className="text-brand" />
+                </div>
+                <span className="text-sm">contato@techify.com.br</span>
               </a>
-              <a href="https://wa.me/5581991300885" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors">
-                <MessageCircle size={18} className="text-brand" />
-                WhatsApp: +55 81 99130-0885
+              <a href="https://wa.me/5581991300885" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors group">
+                <div className="p-2 rounded-lg bg-green-500/10 border border-green-500/20 group-hover:bg-green-500/20 text-green-400">
+                  <MessageCircle size={16} />
+                </div>
+                <span className="text-sm">Suporte via WhatsApp</span>
               </a>
             </div>
             

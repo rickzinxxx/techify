@@ -592,9 +592,12 @@ export default function Courses() {
     if (!searchQuery.trim()) return;
     setIsGeneratingCourse(true);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) throw new Error("Chave API não configurada.");
+
+      const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents: `Crie um currículo de curso para o tema: "${searchQuery}". Não use markdown chars como '#' nos títulos ou módulos.`,
         config: {
           responseMimeType: "application/json",
@@ -647,7 +650,10 @@ export default function Courses() {
 
     try {
       if (!selectedCourse) return;
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) throw new Error("Chave API não configurada.");
+
+      const ai = new GoogleGenAI({ apiKey });
       const modules = selectedCourse.fullModules || selectedCourse.bullets;
       
       const prompt = `Gere uma lição didática para o módulo "${modules[idx]}" do curso "${selectedCourse.title}". 
@@ -664,7 +670,7 @@ export default function Courses() {
       Responda em Português.`;
       
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents: prompt,
         config: {
           responseMimeType: "application/json",
@@ -737,19 +743,22 @@ export default function Courses() {
     if (!selectedCourse || !lessonData) return;
     setIsAiInsightLoading(true);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) throw new Error("Chave API não configurada.");
+
+      const ai = new GoogleGenAI({ apiKey });
       const prompt = type === "resume" 
         ? `Crie um resumo executivo em tópicos da aula: "${lessonData.content}". Adicione dicas práticas.`
         : `Com base no conteúdo: "${lessonData.content}", gere 3 perguntas extras para estudo com respostas curtas.`;
       
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents: prompt
       });
       
       setNotes(prev => ({
         ...prev,
-        [selectedCourse.id]: (prev[selectedCourse.id] || "") + `\n\n--- AI ${type.toUpperCase()} ---\n` + response.text
+        [selectedCourse.id]: (prev[selectedCourse.id] || "") + `\n\n--- AI ${type.toUpperCase()} ---\n` + (response.text || "")
       }));
     } catch (error) {
       console.error("AI Insight error:", error);
