@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const PIN_VH_MULTIPLE = 3.2;
+const PIN_VH_MULTIPLE = 2.2; // Balances scroll length and snappiness
 const IMMERSE_OVERFILL = 1.04;
 const ENTRY_DELAY = 0.2;
 const CARD_START_SCALE_DESKTOP = 0.6;
@@ -186,7 +186,7 @@ export function HeroScrub({
           trigger: section,
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.4,
+          scrub: 0.8, // Slightly more inertia for a "lighter" fluid feel
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const p = self.progress;
@@ -254,7 +254,7 @@ export function HeroScrub({
 
         <div className="relative z-10 flex h-full w-full flex-col items-center justify-center gap-3 md:gap-4">
           <h2 ref={titleTopRef} aria-hidden className="font-black uppercase" style={{
-            fontSize: "clamp(3.75rem, 12vw, 11rem)", lineHeight: 0.85, letterSpacing: "-0.04em",
+            fontSize: "clamp(2.5rem, 10vw, 8rem)", lineHeight: 0.85, letterSpacing: "-0.04em",
           }}>{titleTop}</h2>
 
           <div ref={cardRef} className="relative overflow-hidden rounded-[12px] shadow-[0_20px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/10 will-change-transform md:rounded-[16px]" style={{
@@ -269,7 +269,7 @@ export function HeroScrub({
           </div>
 
           <h2 ref={titleBottomRef} aria-hidden className="font-black uppercase" style={{
-            fontSize: "clamp(3.75rem, 12vw, 11rem)", lineHeight: 0.85, letterSpacing: "-0.04em",
+            fontSize: "clamp(2.5rem, 10vw, 8rem)", lineHeight: 0.85, letterSpacing: "-0.04em",
           }}>{titleBottom}</h2>
         </div>
       </div>

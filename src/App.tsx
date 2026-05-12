@@ -27,8 +27,8 @@ export default function App() {
             <Suspense fallback={<LoadingFallback />}>
               <Stats />
               <Services />
-              <About />
               <DesignerFeature />
+              <About />
               <Academy onExplore={() => setActiveTab("Cursos")} />
             </Suspense>
           </>

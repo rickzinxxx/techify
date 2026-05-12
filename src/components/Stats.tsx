@@ -8,19 +8,19 @@ export default function Stats() {
   ];
 
   return (
-    <section className="py-20">
+    <section className="py-32 border-y border-white/5 bg-white/[0.01]">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10">
           {stats.map((stat, idx) => (
             <motion.div 
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="text-center"
+              className="text-center py-12 md:py-0 px-8"
             >
-              <div className="text-6xl md:text-7xl font-black text-brand neon-glow mb-2">{stat.value}</div>
-              <div className="text-gray-400 uppercase tracking-widest font-bold text-sm">{stat.label}</div>
+              <div className="text-6xl md:text-7xl font-black text-brand neon-glow mb-4 tracking-tighter">{stat.value}</div>
+              <div className="text-white font-black uppercase tracking-[0.2em] text-xs md:text-sm opacity-40">{stat.label}</div>
             </motion.div>
           ))}
         </div>
