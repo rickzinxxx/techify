@@ -6,17 +6,17 @@ export default function About() {
       <CinematicHero 
         brandName="TECHIFY"
         tagline1="Performance & Imersão,"
-        tagline2="Onde a tecnologia flui."
-        cardHeading="Diferentes por Natureza."
+        tagline2="Sua marca em evidência."
+        cardHeading="Somos Diferentes."
         cardDescription={
           <>
-            Na <span className="text-white font-semibold">Techify</span>, acreditamos que a alta performance e a imersão são as chaves para a conversão. Não entregamos apenas código; entregamos experiências digitais que prendem a atenção e transformam o seu negócio.
+            Na <span className="text-brand font-semibold">Techify</span>, somos movidos pela obsessão por performance e imersão. Criamos experiências únicas que transformam marcas comuns em autoridades digitais, focando 100% em converter seus visitantes em clientes reais.
           </>
         }
-        metricValue={99}
-        metricLabel="Web Vital Score"
-        ctaHeading="Sua visão, nossa maestria."
-        ctaDescription="Diferencie-se no mercado com soluções que unem design futurista e estabilidade técnica absoluta."
+        metricValue={100}
+        metricLabel="Score Performance"
+        ctaHeading="Transforme Agora."
+        ctaDescription="Tecnologia de ponta, design futurista e foco total em conversão. Saia do comum e eleve seu patamar digital."
       />
     </section>
   );

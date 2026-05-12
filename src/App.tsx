@@ -7,6 +7,7 @@ const Stats = lazy(() => import("./components/Stats"));
 const Services = lazy(() => import("./components/Services"));
 const About = lazy(() => import("./components/About"));
 const Academy = lazy(() => import("./components/Academy"));
+const DesignerFeature = lazy(() => import("./components/DesignerFeature"));
 const Footer = lazy(() => import("./components/Footer"));
 const Courses = lazy(() => import("./components/Courses"));
 const Chatbot = lazy(() => import("./components/Chatbot"));
@@ -27,6 +28,7 @@ export default function App() {
               <Stats />
               <Services />
               <About />
+              <DesignerFeature />
               <Academy onExplore={() => setActiveTab("Cursos")} />
             </Suspense>
           </>

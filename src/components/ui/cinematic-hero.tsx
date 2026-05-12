@@ -18,6 +18,9 @@ const INJECTED_STYLES = `
       pointer-events: none; z-index: 50; opacity: 0.05; mix-blend-mode: overlay;
       background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
   }
+  @media (pointer: coarse) {
+    .film-grain { display: none; }
+  }
 
   .bg-grid-theme {
       background-size: 60px 60px;
@@ -65,19 +68,19 @@ const INJECTED_STYLES = `
 
   /* Deep Physical Card with Dynamic Mouse Lighting */
   .premium-depth-card {
-      background: linear-gradient(145deg, #0A101D 0%, #050914 100%);
+      background: linear-gradient(145deg, #0f1c05 0%, #050901 100%);
       box-shadow: 
           0 40px 100px -20px rgba(0, 0, 0, 0.9),
           0 20px 40px -20px rgba(0, 0, 0, 0.8),
-          inset 0 1px 2px rgba(255, 255, 255, 0.2),
+          inset 0 1px 2px rgba(255, 255, 255, 0.05),
           inset 0 -2px 4px rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(132, 204, 22, 0.1);
       position: relative;
   }
 
   .card-sheen {
       position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 50;
-      background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06) 0%, transparent 40%);
+      background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(132, 204, 22, 0.06) 0%, transparent 40%);
       mix-blend-mode: screen; transition: opacity 0.3s ease;
   }
 
@@ -123,6 +126,9 @@ const INJECTED_STYLES = `
           0 25px 50px -12px rgba(0, 0, 0, 0.8),
           inset 0 1px 1px rgba(255,255,255,0.2),
           inset 0 -1px 1px rgba(0,0,0,0.5);
+  }
+  @media (pointer: coarse) {
+    .floating-ui-badge { backdrop-filter: none; background: rgba(15, 25, 40, 0.9); }
   }
 
   /* Physical Tactile Buttons */
@@ -183,13 +189,13 @@ export interface CinematicHeroProps extends React.HTMLAttributes<HTMLDivElement>
 export function CinematicHero({ 
   brandName = "TECHIFY",
   tagline1 = "Performance & Imersão,",
-  tagline2 = "Onde a inovação ganha vida.",
+  tagline2 = "Sua marca em outro nível.",
   cardHeading = "Somos Únicos.",
-  cardDescription = <>Na <span className="text-white font-semibold">Techify</span>, criamos ecossistemas digitais de alta performance que convertem visitantes em clientes através de design imersivo e tecnologia de ponta.</>,
+  cardDescription = <>Na <span className="text-brand font-semibold">Techify</span>, criamos ecossistemas digitais que não apenas funcionam, mas encantam. Somos diferentes porque unimos alta performance bruta com uma imersão que converte visitantes em clientes fiéis.</>,
   metricValue = 100,
-  metricLabel = "% Performance",
-  ctaHeading = "Diferencie seu Negócio.",
-  ctaDescription = "Alta performance, interfaces imersivas e resultados reais para quem não aceita o comum.",
+  metricLabel = "Score Performance",
+  ctaHeading = "Converta agora.",
+  ctaDescription = "Entre em contato e descubra como podemos transformar sua presença digital com tecnologia de ponta e design impecável.",
   className, 
   ...props 
 }: CinematicHeroProps) {
@@ -254,10 +260,11 @@ export function CinematicHero({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: isMobile ? "+=3000" : "+=7000", // Reduced for mobile
+          end: isMobile ? "+=1500" : "+=4000", // Significantly reduced scroll distance for both mobile and desktop
           pin: true,
-          scrub: isMobile ? 0.5 : 1, // Snappier scrub on mobile
+          scrub: isMobile ? true : 1, // 'true' is often smoother on mobile
           anticipatePin: 1,
+          fastScrollEnd: true, // Optimizes for rapid scrolling
         },
       });
 
@@ -366,7 +373,7 @@ export function CinematicHero({
                     <div className="absolute inset-0 screen-glare z-40 pointer-events-none" aria-hidden="true" />
 
                     <div className="absolute top-[5px] left-1/2 -translate-x-1/2 w-[100px] h-[28px] bg-black rounded-full z-50 flex items-center justify-end px-3 shadow-[inset_0_-1px_2px_rgba(255,255,255,0.1)]">
-                      <div className="w-1.5 h-1.5 rounded-full bg-brand shadow-[0_0_8px_rgba(var(--brand),0.8)] animate-pulse" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-brand shadow-[0_0_8px_rgba(132,204,22,0.8)] animate-pulse" />
                     </div>
 
                     <div className="relative w-full h-full pt-12 px-5 pb-8 flex flex-col">
@@ -380,8 +387,8 @@ export function CinematicHero({
 
                       <div className="phone-widget relative w-44 h-44 mx-auto flex items-center justify-center mb-8 drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)]">
                         <svg className="absolute inset-0 w-full h-full" aria-hidden="true">
-                          <circle cx="88" cy="88" r="64" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="12" />
-                          <circle className="progress-ring" cx="88" cy="88" r="64" fill="none" stroke="#brand" strokeWidth="12" />
+                          <circle cx="88" cy="88" r="64" fill="none" stroke="rgba(132,204,22,0.03)" strokeWidth="12" />
+                          <circle className="progress-ring" cx="88" cy="88" r="64" fill="none" stroke="#84CC16" strokeWidth="12" />
                         </svg>
                         <div className="text-center z-10 flex flex-col items-center">
                           <span className="counter-val text-4xl font-extrabold tracking-tighter text-white">0</span>
