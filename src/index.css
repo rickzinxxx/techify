@@ -1,0 +1,214 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --color-brand: #84cc16; /* lime-500 */
+  --color-brand-dark: #4d7c0f; /* lime-900 */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-black text-white antialiased;
+  }
+}
+
+:root {
+  --animation-iteration: infinite;
+}
+
+.cosmic-parallax-container {
+  height: 100vh;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 0;
+}
+
+.cosmic-stars, .cosmic-stars-medium, .cosmic-stars-large {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+}
+
+.cosmic-stars {
+  width: 1px;
+  height: 1px;
+  animation: animStar 50s linear var(--animation-iteration);
+}
+
+.cosmic-stars:after {
+  content: " ";
+  position: absolute;
+  top: 2000px;
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow: inherit;
+}
+
+.cosmic-stars-medium {
+  width: 2px;
+  height: 2px;
+  animation: animStar 100s linear var(--animation-iteration);
+}
+
+.cosmic-stars-medium:after {
+  content: " ";
+  position: absolute;
+  top: 2000px;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  box-shadow: inherit;
+}
+
+.cosmic-stars-large {
+  width: 3px;
+  height: 3px;
+  animation: animStar 150s linear var(--animation-iteration);
+}
+
+.cosmic-stars-large:after {
+  content: " ";
+  position: absolute;
+  top: 2000px;
+  width: 3px;
+  height: 3px;
+  background: transparent;
+  box-shadow: inherit;
+}
+
+#title {
+  color: #FFF;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-weight: 900;
+  font-size: 8vw;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  z-index: 10;
+  @apply tracking-tighter;
+}
+
+#subtitle-container {
+  position: relative;
+  height: 10vw;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.subtitle-part-1, .subtitle-part-2, .subtitle-part-3, .subtitle-part-4 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-weight: 900;
+  font-size: 8vw;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  @apply tracking-tighter;
+  opacity: 0;
+  white-space: nowrap;
+}
+
+@keyframes animPart1 {
+  0% { transform: translateY(-20px); opacity: 0; }
+  3%, 17% { transform: translateY(0); opacity: 1; }
+  20%, 100% { transform: translateY(20px); opacity: 0; }
+}
+
+@keyframes animPart2 {
+  0%, 20% { transform: translateY(-20px); opacity: 0; }
+  23%, 37% { transform: translateY(0); opacity: 1; }
+  40%, 100% { transform: translateY(20px); opacity: 0; }
+}
+
+@keyframes animPart3 {
+  0%, 40% { transform: translateY(-20px); opacity: 0; }
+  43%, 57% { transform: translateY(0); opacity: 1; }
+  60%, 100% { transform: translateY(20px); opacity: 0; }
+}
+
+@keyframes animPart4 {
+  0%, 60% { transform: translateY(-20px); opacity: 0; }
+  63%, 97% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(20px); opacity: 0; }
+}
+
+.subtitle-part-1 { animation: animPart1 15s var(--animation-iteration); }
+.subtitle-part-2 { animation: animPart2 15s var(--animation-iteration); }
+.subtitle-part-3 { animation: animPart3 15s var(--animation-iteration); }
+.subtitle-part-4 { animation: animPart4 15s var(--animation-iteration); }
+
+#horizon {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at center, rgba(132, 204, 22, 0.05) 0%, transparent 60%),
+    linear-gradient(0deg, rgba(132, 204, 22, 0.2) 0%, transparent 50%);
+  z-index: 1;
+}
+
+#horizon:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 80vw;
+  border: 1px solid rgba(132, 204, 22, 0.1);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+#horizon:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120vw;
+  height: 120vw;
+  border: 1px solid rgba(132, 204, 22, 0.05);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+#earth {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  width: 300vw;
+  height: 300vw;
+  background: black;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 150px rgba(132, 204, 22, 0.3);
+  z-index: 2;
+  border-top: 1px solid rgba(132, 204, 22, 0.1);
+}
+
+@keyframes animStar {
+  from { transform: translateY(0px); }
+  to { transform: translateY(-2000px); }
+}
+
+.neon-glow {
+  text-shadow: 0 0 10px rgba(132, 204, 22, 0.5), 0 0 20px rgba(132, 204, 22, 0.3);
+}
+
+.neon-border {
+  border-color: rgba(132, 204, 22, 0.3);
+  box-shadow: 0 0 15px rgba(132, 204, 22, 0.1);
+}
