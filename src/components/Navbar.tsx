@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { motion } from "motion/react";
+import { useState, useEffect } from "react";
 import { 
   Home, 
   GraduationCap, 
@@ -13,7 +12,9 @@ import {
   BarChart3, 
   Wand2
 } from "lucide-react";
-import { GlassDock, GlassEffect } from "./ui/liquid-glass";
+import { GlassDock } from "./ui/liquid-glass";
+import { auth, isAdmin } from "../lib/firebase";
+import { onAuthStateChanged, User } from "firebase/auth";
 
 interface NavbarProps {
   activeTab: string;
@@ -21,6 +22,18 @@ interface NavbarProps {
 }
 
 export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
+      setUser(u);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const adminTabs = ["Admin", "Analytics", "AI Studio"];
+  const isUserAdmin = isAdmin(user?.email);
+
   const navItems = [
     { label: "Início", icon: Home },
     { label: "Cursos", icon: GraduationCap },
@@ -33,7 +46,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
     { label: "Admin", icon: ShieldCheck },
     { label: "Analytics", icon: BarChart3 },
     { label: "AI Studio", icon: Wand2 },
-  ];
+  ].filter(item => !adminTabs.includes(item.label) || isUserAdmin);
 
   // Mobile navigation items (picking most important ones for the dock)
   const mobileNavItems = [
@@ -41,11 +54,12 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
     { label: "Cursos", icon: GraduationCap },
     { label: "Portfólio", icon: Globe },
     { label: "Designs", icon: Palette },
+    { label: "Carreiras", icon: Briefcase },
     { label: "AI Studio", icon: Wand2 },
-  ];
+  ].filter(item => !adminTabs.includes(item.label) || isUserAdmin);
 
   const dockIcons = mobileNavItems.map(item => ({
-    icon: <item.icon size={24} />,
+    icon: <item.icon />,
     alt: item.label,
     active: activeTab === item.label,
     onClick: () => setActiveTab(item.label)
@@ -74,8 +88,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
                   <item.icon size={13} />
                   {item.label}
                   {activeTab === item.label && (
-                    <motion.div 
-                      layoutId="nav-underline"
+                    <div 
                       className="absolute bottom-0 left-2 right-2 h-0.5 bg-brand rounded-full"
                     />
                   )}

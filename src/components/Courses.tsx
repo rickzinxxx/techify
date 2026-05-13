@@ -597,7 +597,7 @@ export default function Courses() {
 
       const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: "gemini-3-flash-preview",
         contents: `Crie um currículo de curso para o tema: "${searchQuery}". Não use markdown chars como '#' nos títulos ou módulos.`,
         config: {
           responseMimeType: "application/json",
@@ -670,7 +670,7 @@ export default function Courses() {
       Responda em Português.`;
       
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: "gemini-3-flash-preview",
         contents: prompt,
         config: {
           responseMimeType: "application/json",
@@ -752,7 +752,7 @@ export default function Courses() {
         : `Com base no conteúdo: "${lessonData.content}", gere 3 perguntas extras para estudo com respostas curtas.`;
       
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: "gemini-3-flash-preview",
         contents: prompt
       });
       

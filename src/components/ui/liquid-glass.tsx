@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 // Types
 export interface GlassEffectProps {
@@ -27,8 +28,12 @@ export const GlassEffect: React.FC<GlassEffectProps> = ({
   href,
   target = "_blank",
 }) => {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  
   const glassStyle = {
-    boxShadow: "0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1)",
+    boxShadow: isMobile 
+      ? "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" 
+      : "0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1)",
     transitionTimingFunction: "cubic-bezier(0.175, 0.885, 0.32, 2.2)",
     ...style,
   };
@@ -42,9 +47,10 @@ export const GlassEffect: React.FC<GlassEffectProps> = ({
       <div
         className="absolute inset-0 z-0 overflow-hidden rounded-inherit"
         style={{
-          backdropFilter: "blur(8px)",
-          filter: "url(#glass-distortion)",
+          backdropFilter: isMobile ? "blur(12px)" : "blur(8px)",
+          filter: isMobile ? "none" : "url(#glass-distortion)",
           isolation: "isolate",
+          background: isMobile ? "rgba(255, 255, 255, 0.05)" : "transparent",
         }}
       />
       <div
@@ -83,32 +89,52 @@ export const GlassDock: React.FC<{ icons: DockIcon[]; className?: string }> = ({
   <div className={`relative ${className}`}>
     <GlassFilter />
     <GlassEffect
-      className="rounded-3xl p-2 bg-black/20"
+      className="rounded-[2rem] p-1.5 bg-black/50 border border-white/10 backdrop-blur-2xl"
     >
-      <div className="flex items-center justify-center gap-4 p-2">
+      <div className="flex items-center gap-2 p-1 overflow-x-auto no-scrollbar scroll-smooth snap-x touch-pan-x">
         {icons.map((icon, index) => (
-          <div
+          <motion.div
             key={index}
             onClick={icon.onClick}
-            className={`relative flex flex-col items-center justify-center w-12 h-12 rounded-2xl transition-all duration-300 cursor-pointer ${
+            whileTap={{ scale: 0.9 }}
+            className={`relative flex flex-col items-center justify-center min-w-[4.2rem] h-14 rounded-[1.4rem] transition-colors duration-500 cursor-pointer snap-center ${
               icon.active 
-                ? "bg-brand text-black scale-110 shadow-[0_0_15px_rgba(132,204,22,0.5)]" 
-                : "text-white/70 hover:text-white hover:bg-white/10"
+                ? "text-black" 
+                : "text-white/50 hover:text-white"
             }`}
           >
-            {icon.src ? (
-              <img
-                src={icon.src}
-                alt={icon.alt}
-                className="w-8 h-8 object-contain"
-              />
-            ) : (
-              icon.icon
-            )}
             {icon.active && (
-              <div className="absolute -bottom-1 w-1 h-1 bg-black rounded-full" />
+              <motion.div
+                layoutId="dock-bg"
+                className="absolute inset-0 bg-brand rounded-[1.4rem] shadow-[0_0_25px_rgba(132,204,22,0.5)] z-0"
+                transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
+              />
             )}
-          </div>
+            
+            <div className="relative z-10 flex flex-col items-center justify-center">
+              <motion.div
+                animate={{ 
+                  scale: icon.active ? 1.1 : 1,
+                  y: icon.active ? -1 : 0
+                }}
+              >
+                {icon.src ? (
+                  <img
+                    src={icon.src}
+                    alt={icon.alt}
+                    className="w-5 h-5 object-contain"
+                  />
+                ) : (
+                  <div className={icon.active ? "text-black" : "text-white"}>
+                    {React.cloneElement(icon.icon as React.ReactElement, { size: 20, strokeWidth: icon.active ? 2.5 : 2 })}
+                  </div>
+                )}
+              </motion.div>
+              <span className={`text-[7px] font-black uppercase mt-1 tracking-wider ${icon.active ? "text-black" : "text-white/40"}`}>
+                {icon.alt}
+              </span>
+            </div>
+          </motion.div>
         ))}
       </div>
     </GlassEffect>

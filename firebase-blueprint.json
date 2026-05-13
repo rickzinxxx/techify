@@ -1,0 +1,85 @@
+{
+  "entities": {
+    "PortfolioItem": {
+      "title": "Portfolio Item",
+      "description": "A featured project in the portfolio.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "url": { "type": "string" },
+        "threeDUrl": { "type": "string" },
+        "image": { "type": "string" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "url", "image", "category", "description"]
+    },
+    "Vacancy": {
+      "title": "Job Vacancy",
+      "description": "A job opening in the careers section.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "department": { "type": "string" },
+        "type": { "type": "string" },
+        "location": { "type": "string" },
+        "description": { "type": "string" },
+        "requirements": { "type": "array", "items": { "type": "string" } },
+        "benefits": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "department", "type", "location", "description"]
+    },
+    "Application": {
+      "title": "Job Application",
+      "description": "Candidate application for a vacancy.",
+      "type": "object",
+      "properties": {
+        "vacancyId": { "type": "string" },
+        "vacancyTitle": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string", "enum": ["pendente", "aprovado", "recusado"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["vacancyId", "name", "email", "message", "status", "createdAt"]
+    },
+    "Consultation": {
+      "title": "Consultation",
+      "description": "A lead or appointment request.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "category": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string", "enum": ["pendente", "concluido", "recusado"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "emailCount": { "type": "number" }
+      },
+      "required": ["name", "email", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/portfolio": {
+      "schema": "PortfolioItem",
+      "description": "Collection of featured portfolio projects."
+    },
+    "/vacancies": {
+      "schema": "Vacancy",
+      "description": "Collection of job openings."
+    },
+    "/applications": {
+      "schema": "Application",
+      "description": "Job applications submitted by candidates."
+    },
+    "/consultations": {
+      "schema": "Consultation",
+      "description": "Scheduled appointments or consultations."
+    }
+  }
+}

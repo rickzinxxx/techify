@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import { GraduationCap, ArrowRight, Brain, Languages, Smile } from "lucide-react";
 
 interface AcademyProps {
@@ -49,7 +48,7 @@ export default function Academy({ onExplore }: AcademyProps) {
   ];
 
   return (
-    <section className="py-32 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden">
       <div className="absolute top-[10%] left-[-10%] w-[40%] h-[40%] bg-brand/5 blur-[100px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[10%] right-[-10%] w-[40%] h-[40%] bg-brand/5 blur-[100px] rounded-full pointer-events-none" />
       <div className="container mx-auto px-4 relative z-10">
@@ -68,22 +67,16 @@ export default function Academy({ onExplore }: AcademyProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
           {educationCards.map((card, idx) => (
-            <motion.div
+            <div
               key={idx}
-              initial={{ opacity: 0, x: idx % 2 === 0 ? -30 : 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.6 }}
-              whileHover={{ scale: 1.01, x: idx % 2 === 0 ? 5 : -5 }}
               className={`p-8 rounded-3xl border ${card.color} group hover:border-brand/40 transition-all cursor-pointer`}
             >
               <div className="flex items-start justify-between mb-6">
-                <motion.div 
-                  whileHover={{ scale: 1.1, rotate: 5 }}
+                <div 
                   className="p-3 rounded-2xl bg-white/5 border border-white/10"
                 >
                   <card.icon className="text-brand" size={28} />
-                </motion.div>
+                </div>
                 <span className={`px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-wider ${card.tagColor}`}>
                   {card.tag}
                 </span>
@@ -98,7 +91,7 @@ export default function Academy({ onExplore }: AcademyProps) {
               >
                 Explorar cursos <ArrowRight size={16} />
               </button>
-            </motion.div>
+            </div>
           ))}
         </div>
 

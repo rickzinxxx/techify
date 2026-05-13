@@ -6,8 +6,6 @@ export default function About() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-brand/5 blur-[120px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
       <CinematicHero 
         brandName="TECHIFY"
-        tagline1="Performance & Imersão."
-        tagline2="Engenharia de Resultados."
         cardHeading="EXCELÊNCIA É O NOSSO PADRÃO."
         cardDescription={
           <>

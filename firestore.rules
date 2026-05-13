@@ -1,0 +1,49 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && 
+             request.auth.token.email == "aigerakabane81983521523@gmail.com" && 
+             request.auth.token.email_verified == true;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Portfolio Collection
+    match /portfolio/{projectId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin() && isValidId(projectId);
+    }
+
+    // Vacancies Collection
+    match /vacancies/{vacancyId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin() && isValidId(vacancyId);
+    }
+
+    // Applications Collection
+    match /applications/{applicationId} {
+      allow read, update, delete: if isAdmin() && isValidId(applicationId);
+      allow create: if isValidId(applicationId);
+    }
+
+    // Consultations Collection
+    match /consultations/{consultationId} {
+      allow read, update, delete: if isAdmin() && isValidId(consultationId);
+      allow create: if isValidId(consultationId);
+    }
+  }
+}
