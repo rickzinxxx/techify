@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { 
   Calendar, 
   Play, 
@@ -101,9 +102,19 @@ export default function Hero({ onViewPortfolio }: HeroProps) {
 
         {/* Animated Title Section */}
         <div className="w-full flex flex-col items-center py-8">
-           <h2 id="title">TRANSFORME SEU</h2>
+           <motion.h2 
+             id="title"
+             initial={{ opacity: 0, y: 20 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ duration: 0.8 }}
+           >
+             TRANSFORME SEU
+           </motion.h2>
            <div id="subtitle-container">
               <span className="subtitle-part-1">NEGÓCIO DIGITAL</span>
+              <span className="subtitle-part-2"> RESULTADOS REAIS </span>
+              <span className="subtitle-part-3"> INOVAÇÃO </span>
+              <span className="subtitle-part-4"> TECHIFY </span>
            </div>
         </div>
 
@@ -120,15 +131,25 @@ export default function Hero({ onViewPortfolio }: HeroProps) {
              className="flex flex-wrap justify-center gap-4 mb-16 max-w-4xl mx-auto"
           >
             {badges.map((badge, idx) => (
-              <div key={idx} className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-brand/90 hover:bg-white/10 transition-colors backdrop-blur-md">
+              <motion.div 
+                key={idx} 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1 + idx * 0.1 }}
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+                className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-brand/90 hover:bg-white/10 transition-colors backdrop-blur-md cursor-default"
+              >
                 <span>{badge.icon}</span>
                 {badge.text}
-              </div>
+              </motion.div>
             ))}
           </div>
 
           {/* Main CTA Buttons */}
-          <div 
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.8 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
           >
             <button 
@@ -137,7 +158,7 @@ export default function Hero({ onViewPortfolio }: HeroProps) {
             >
               <Calendar size={20} />
               Agendar Consulta
-              <span>→</span>
+              <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </button>
             
             <button 
@@ -146,7 +167,7 @@ export default function Hero({ onViewPortfolio }: HeroProps) {
             >
               Ver Portfólio
             </button>
-          </div>
+          </motion.div>
 
           {/* Scroll indicator */}
           <div className="flex flex-col items-center gap-4">

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion } from "motion/react";
 import { 
   Home, 
   GraduationCap, 
@@ -88,7 +89,8 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
                   <item.icon size={13} />
                   {item.label}
                   {activeTab === item.label && (
-                    <div 
+                    <motion.div 
+                      layoutId="nav-underline"
                       className="absolute bottom-0 left-2 right-2 h-0.5 bg-brand rounded-full"
                     />
                   )}
@@ -99,17 +101,42 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
         </div>
       </nav>
 
-      {/* Mobile Top Bar (Just Logo) */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-lg border-b border-white/5 h-14 flex items-center px-4">
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => setActiveTab("Início")}>
-          <div className="w-1 h-6 bg-brand rounded-full"></div>
-          <span className="text-lg font-bold tracking-tight">Techify</span>
+      {/* Mobile Top Bar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-[999] bg-black/90 backdrop-blur-2xl border-b border-brand/20 flex flex-col pt-4 pb-2">
+        <div className="flex items-center px-6 mb-3">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveTab("Início")}>
+            <div className="w-1.5 h-7 bg-brand rounded-full shadow-[0_0_20px_rgba(132,204,22,0.6)]"></div>
+            <span className="text-xl font-black tracking-tighter text-white uppercase italic">Techify</span>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar scroll-smooth px-4 pb-1">
+          {navItems.map((item) => (
+            <button
+              key={item.label}
+              onClick={() => setActiveTab(item.label)}
+              className={`flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer relative px-3 py-2 rounded-lg ${
+                activeTab === item.label ? "text-brand bg-white/10" : "text-gray-400"
+              }`}
+            >
+              <item.icon size={12} />
+              {item.label}
+              {activeTab === item.label && (
+                <motion.div 
+                  layoutId="mobile-nav-underline"
+                  className="absolute bottom-0 left-2 right-2 h-0.5 bg-brand rounded-full"
+                />
+              )}
+            </button>
+          ))}
         </div>
       </div>
 
       {/* Fixed Bottom Dock for Mobile */}
-      <div className="md:hidden fixed bottom-6 left-0 right-0 z-50 px-4 flex justify-center">
-        <GlassDock icons={dockIcons} className="w-full max-w-sm" />
+      <div className="md:hidden fixed bottom-8 left-0 right-0 z-[999] px-4 flex justify-center pointer-events-none">
+        <div className="w-full max-w-[95%] pointer-events-auto h-16">
+          <GlassDock icons={dockIcons.length > 0 ? dockIcons : []} className="w-full h-full" />
+        </div>
       </div>
     </>
   );

@@ -1,3 +1,4 @@
+import { motion } from "motion/react";
 import { GraduationCap, ArrowRight, Brain, Languages, Smile } from "lucide-react";
 
 interface AcademyProps {
@@ -52,7 +53,12 @@ export default function Academy({ onExplore }: AcademyProps) {
       <div className="absolute top-[10%] left-[-10%] w-[40%] h-[40%] bg-brand/5 blur-[100px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[10%] right-[-10%] w-[40%] h-[40%] bg-brand/5 blur-[100px] rounded-full pointer-events-none" />
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-24">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="text-center mb-24"
+        >
           <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-brand/10 border border-brand/30 text-brand text-xs font-black uppercase tracking-[0.3em] mb-10">
             <GraduationCap size={18} />
             Academia Techify
@@ -63,20 +69,26 @@ export default function Academy({ onExplore }: AcademyProps) {
           <p className="max-w-3xl mx-auto text-white/40 text-lg md:text-xl font-light leading-relaxed">
             Nossa IA proprietária gera trilhas personalizadas de aprendizado em tempo real. Programação, design e high-performance ao seu alcance, totalmente grátis.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
           {educationCards.map((card, idx) => (
-            <div
+            <motion.div
               key={idx}
+              initial={{ opacity: 0, x: idx % 2 === 0 ? -30 : 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1, duration: 0.6 }}
+              whileHover={{ scale: 1.01, x: idx % 2 === 0 ? 5 : -5 }}
               className={`p-8 rounded-3xl border ${card.color} group hover:border-brand/40 transition-all cursor-pointer`}
             >
               <div className="flex items-start justify-between mb-6">
-                <div 
+                <motion.div 
+                  whileHover={{ scale: 1.1, rotate: 5 }}
                   className="p-3 rounded-2xl bg-white/5 border border-white/10"
                 >
                   <card.icon className="text-brand" size={28} />
-                </div>
+                </motion.div>
                 <span className={`px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-wider ${card.tagColor}`}>
                   {card.tag}
                 </span>
@@ -91,17 +103,24 @@ export default function Academy({ onExplore }: AcademyProps) {
               >
                 Explorar cursos <ArrowRight size={16} />
               </button>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, idx) => (
-            <div key={idx} className="p-8 rounded-3xl bg-white/5 border border-white/10 text-center">
+            <motion.div 
+              key={idx} 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 + idx * 0.1 }}
+              className="p-8 rounded-3xl bg-white/5 border border-white/10 text-center"
+            >
               <div className="text-3xl mb-4">{stat.icon}</div>
               <div className="text-3xl font-black text-brand mb-1">{stat.value}</div>
               <div className="text-xs text-gray-500 uppercase tracking-widest font-bold">{stat.label}</div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -1,6 +1,57 @@
 "use client";
 
-import React from "react";
+import { useState, useEffect, Suspense } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Canvas } from "@react-three/fiber";
+import { ShaderPlane, MeshGradient, DotOrbit, EnergyRing } from "./background-paper-shaders";
+import { 
+  Video, 
+  Calendar as CalendarIcon, 
+  Image as ImageIcon, 
+  Camera, 
+  Mail, 
+  FileText, 
+  Clock as ClockIcon, 
+  Mic2, 
+  ListTodo, 
+  Tv, 
+  AppWindow, 
+  MapPin, 
+  Heart, 
+  Home as HomeIcon, 
+  Wallet, 
+  Settings,
+  Phone,
+  Compass,
+  MessageSquare,
+  Music,
+  CloudSun,
+  Battery,
+  Wifi,
+  Signal,
+  LineChart,
+  LocateFixed,
+  BookOpen,
+  Star,
+  Activity,
+  Watch,
+  Users,
+  Languages,
+  Folder,
+  SquareStack,
+  LayoutGrid,
+  Pencil,
+  Book,
+  Lightbulb,
+  ShoppingBag,
+  Music2,
+  Presentation,
+  BarChart3,
+  Search,
+  MousePointer2,
+  Zap,
+  Sparkles
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const INJECTED_STYLES = `
@@ -40,33 +91,55 @@ const INJECTED_STYLES = `
   }
 
   .iphone-bezel {
-      background-color: #111;
+      background-color: #0c0c0c;
       box-shadow: 
-          inset 0 0 0 2px #52525B, 
-          inset 0 0 0 7px #000, 
-          0 40px 80px -15px rgba(0,0,0,0.9);
+          inset 0 0 0 1px rgba(255,255,255,0.1),
+          inset 0 0 0 3px #1a1a1a,
+          0 0 0 4px #262626,
+          0 40px 80px -15px rgba(0,0,0,0.8);
+      border: 1px solid rgba(255,255,255,0.05);
   }
 
-  .btn-modern-light {
-      background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
-      color: #0F172A;
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 1px rgba(255,255,255,1);
-      transition: all 0.3s ease;
-  }
-  .btn-modern-light:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  .ios-app-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding: 16px;
   }
 
-  .btn-modern-dark {
-      background: linear-gradient(180deg, #27272A 0%, #18181B 100%);
-      color: #FFFFFF;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.6);
-      transition: all 0.3s ease;
+  .ios-app-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
   }
-  .btn-modern-dark:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+
+  .ios-icon-bg {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ios-app-label {
+      font-size: 10px;
+      color: white;
+      font-weight: 500;
+  }
+
+  .ios-widget {
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(255,255,255,0.05);
   }
 `;
 
@@ -92,12 +165,106 @@ export function CinematicHero({
   ...props 
 }: CinematicHeroProps) {
   
+  const [activeApp, setActiveApp] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (activeApp) {
+      const timer = setTimeout(() => setActiveApp(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [activeApp]);
+
+  const appIcons = [
+    { label: "Weather", icon: CloudSun, color: "bg-[#4FB7F4]" },
+    { label: "Stocks", icon: LineChart, color: "bg-black" },
+    { label: "Find My", icon: LocateFixed, color: "bg-[#2ECC71]" },
+    { label: "Home", icon: HomeIcon, color: "bg-white", iconColor: "text-[#F39C12]" },
+    
+    { label: "Books", icon: BookOpen, color: "bg-[#E67E22]" },
+    { label: "iTunes Store", icon: Star, color: "bg-[#9B59B6]" },
+    { label: "Fitness", icon: Activity, color: "bg-black", iconColor: "text-[#2ECC71]" },
+    { label: "Watch", icon: Watch, color: "bg-black" },
+
+    { label: "Contacts", icon: Users, color: "bg-[#ECF0F1]", iconColor: "text-[#2C3E50]" },
+    { label: "Translate", icon: Languages, color: "bg-[#2980B9]" },
+    { label: "Files", icon: Folder, color: "bg-white", iconColor: "text-[#3498DB]" },
+    { label: "Shortcuts", icon: SquareStack, color: "bg-[#8E44AD]" },
+
+    { label: "Utilities", icon: LayoutGrid, color: "bg-[#34495E]/40" },
+    { label: "Freeform", icon: Pencil, color: "bg-white", iconColor: "text-[#3498DB]" },
+    { label: "Journal", icon: Book, color: "bg-white", iconColor: "text-[#8E44AD]" },
+    { label: "Tips", icon: Lightbulb, color: "bg-[#F1C40F]" },
+
+    { label: "Apple Store", icon: ShoppingBag, color: "bg-white", iconColor: "text-[#3498DB]" },
+    { label: "Clips", icon: Video, color: "bg-[#4FB7F4]" },
+    { label: "GarageBand", icon: Music2, color: "bg-white", iconColor: "text-[#E67E22]" },
+    { label: "iMovie", icon: Star, color: "bg-[#9B59B6]" },
+
+    { label: "Keynote", icon: Presentation, color: "bg-[#3498DB]" },
+    { label: "Numbers", icon: BarChart3, color: "bg-[#2ECC71]" },
+    { label: "Pages", icon: FileText, color: "bg-[#E67E22]" },
+  ];
+
+  const dockIcons = [
+    { label: "Phone", icon: Phone, color: "bg-green-500" },
+    { label: "Safari", icon: Compass, color: "bg-white", iconColor: "text-blue-500" },
+    { label: "Messages", icon: MessageSquare, color: "bg-green-500" },
+    { label: "Music", icon: Music, color: "bg-red-500" },
+  ];
+
+  const techQualifications = [
+    { 
+      label: "Performance Brutal", 
+      desc: "Sites que carregam em menos de 100ms.", 
+      icon: Zap, 
+      pos: "top-0 left-[-160px] lg:left-[-200px]",
+      delay: 2.2
+    },
+    { 
+      label: "Design Autoral", 
+      desc: "Interfaces únicas, sem templates.", 
+      icon: Sparkles, 
+      pos: "top-[120px] right-[-160px] lg:right-[-200px]",
+      delay: 2.4
+    },
+    { 
+      label: "SEO Avançado", 
+      desc: "Estrutura pronta para o topo do Google.", 
+      icon: BarChart3, 
+      pos: "bottom-[160px] left-[-160px] lg:left-[-200px]",
+      delay: 2.6
+    },
+    { 
+      label: "UX de Elite", 
+      desc: "Foco total em conversão e usabilidade.", 
+      icon: MousePointer2, 
+      pos: "bottom-[40px] right-[-160px] lg:right-[-200px]",
+      delay: 2.8
+    },
+  ];
+
   return (
     <div
-      className={cn("relative w-full py-12 overflow-hidden flex flex-col items-center justify-center bg-black text-white font-sans antialiased gap-12", className)}
+      className={cn("relative w-full py-12 overflow-hidden flex flex-col items-center justify-center font-sans antialiased gap-12", className)}
       {...props}
     >
       <style dangerouslySetInnerHTML={{ __html: INJECTED_STYLES }} />
+      
+      {/* Three.js Background Shader */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <Canvas camera={{ position: [0, 0, 10], fov: 60 }} alpha={true}>
+          <Suspense fallback={null}>
+            <fog attach="fog" args={["#000000", 5, 20]} />
+            <MeshGradient colors={["#000000", "#1a1a1a", "#051505", "#84cc16"]} speed={0.4} />
+            <DotOrbit dotColor="#ffffff" speed={0.5} intensity={1.5} />
+            <ShaderPlane position={[0, 0, -2]} color1="#84cc16" color2="#000000" />
+            <EnergyRing radius={5} color="#84cc16" position={[0, 0, -1]} />
+          </Suspense>
+        </Canvas>
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-60" />
+        <div className="absolute inset-0 bg-black/20" />
+      </div>
+
       <div className="film-grain" aria-hidden="true" />
       <div className="bg-grid-theme absolute inset-0 z-0 pointer-events-none opacity-30" aria-hidden="true" />
 
@@ -139,56 +306,143 @@ export function CinematicHero({
               </div>
             </div>
 
-            <div className="flex justify-center opacity-80 hover:opacity-100 transition-opacity duration-500">
-               <div className="relative w-[280px] h-[500px] md:w-[320px] md:h-[600px] rounded-[3rem] iphone-bezel p-3 bg-black flex flex-col scale-75 md:scale-90">
-                  <div className="flex-1 bg-[#050914] rounded-[2.5rem] overflow-hidden relative flex flex-col p-6 items-center justify-start text-center">
-                      <div className="absolute top-2 w-20 h-6 bg-black rounded-full" />
+            <div className="relative flex justify-center opacity-90 hover:opacity-100 transition-opacity duration-500">
+               
+               {/* Qualifications around the phone */}
+               {techQualifications.map((q, i) => (
+                 <motion.div
+                   key={i}
+                   initial={{ opacity: 0, scale: 0.8, x: i % 2 === 0 ? -20 : 20 }}
+                   animate={{ opacity: 1, scale: 1, x: 0 }}
+                   transition={{ duration: 0.8, delay: q.delay }}
+                   className={cn(
+                     "absolute z-50 p-4 rounded-2xl bg-black/60 backdrop-blur-md border border-white/10 w-40 md:w-48 shadow-2xl hidden lg:block",
+                     q.pos
+                   )}
+                 >
+                   <div className="flex flex-col gap-2 text-left">
+                     <div className="p-2 rounded-lg bg-brand/20 w-fit">
+                       <q.icon size={16} className="text-brand" />
+                     </div>
+                     <span className="text-[10px] font-black uppercase tracking-widest text-brand">{q.label}</span>
+                     <p className="text-[10px] text-gray-400 leading-tight font-medium">{q.desc}</p>
+                   </div>
+                 </motion.div>
+               ))}
+
+               <div className="relative w-[300px] h-[610px] md:w-[340px] md:h-[680px] rounded-[3.5rem] iphone-bezel p-[10px] bg-black flex flex-col scale-75 md:scale-90 shadow-2xl">
+                  {/* Silent Switch */}
+                  <div className="absolute left-[-2px] top-24 w-[2px] h-8 bg-gray-600 rounded-l-md" />
+                  {/* Volume Buttons */}
+                  <div className="absolute left-[-2px] top-36 w-[2px] h-12 bg-gray-600 rounded-l-md" />
+                  <div className="absolute left-[-2px] top-52 w-[2px] h-12 bg-gray-600 rounded-l-md" />
+                  {/* Power Button */}
+                  <div className="absolute right-[-2px] top-40 w-[2px] h-20 bg-gray-600 rounded-r-md" />
+
+                  <div className="flex-1 bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=2564&ixlib=rb-4.0.3')] bg-cover bg-center rounded-[3rem] overflow-hidden relative flex flex-col items-stretch">
                       
-                      <div className="mt-8 mb-6">
-                        <div className="w-24 h-24 rounded-full border-4 border-brand/30 border-t-brand flex flex-col items-center justify-center mx-auto">
-                          <span className="text-3xl font-black text-white">{metricValue}</span>
-                          <span className="text-[8px] font-black text-brand uppercase">MS LOAD</span>
+                      {/* Top Bar / Status Bar */}
+                      <div className="h-10 flex items-center justify-between px-8 pt-6 z-30">
+                        <span className="text-[10px] font-bold text-white">4:59</span>
+                        <div className="flex items-center gap-1.5 text-white">
+                          <Signal size={12} />
+                          <Wifi size={12} />
+                          <Battery size={14} className="rotate-90" />
                         </div>
                       </div>
 
-                      <h4 className="text-white font-bold text-sm mb-1 uppercase tracking-tight">Performance Core</h4>
-                      <p className="text-gray-500 text-[10px] mb-6">Métricas de otimização em tempo real</p>
-                      
-                      <div className="w-full h-16 bg-white/5 rounded-xl border border-white/10 mb-6 relative overflow-hidden">
-                        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 40">
-                          <path d="M0 35 Q 20 10, 40 30 T 80 10 L 100 25" fill="none" stroke="var(--color-brand)" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
-                          <path d="M0 35 Q 20 10, 40 30 T 80 10 L 100 25 V 40 H 0 Z" fill="var(--color-brand)" opacity="0.1" />
-                        </svg>
-                        <div className="absolute bottom-2 left-3 flex items-center gap-1">
-                           <div className="w-1 h-1 rounded-full bg-brand animate-pulse" />
-                           <span className="text-[8px] text-gray-400 font-bold">LIVE SYNC</span>
-                        </div>
-                      </div>
+                      {/* Dynamic Island */}
+                      <motion.div 
+                        initial={false}
+                        animate={{ 
+                          width: activeApp ? 160 : 96,
+                          height: activeApp ? 30 : 26,
+                          borderRadius: activeApp ? 15 : 13,
+                        }}
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                        className="absolute top-2 left-1/2 -translate-x-1/2 bg-black z-40 flex items-center justify-between px-3 overflow-hidden shadow-lg border border-white/5"
+                      >
+                         <AnimatePresence mode="wait">
+                            {activeApp ? (
+                              <motion.div 
+                                key="active"
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8 }}
+                                className="w-full flex items-center justify-between"
+                              >
+                                  <div className="w-4 h-4 rounded-full bg-brand/20 flex items-center justify-center">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+                                  </div>
+                                  <span className="text-[9px] font-black tracking-tight text-white/90 uppercase">{activeApp}</span>
+                                  <div className="flex gap-0.5">
+                                    {[1,2,3].map(i => <div key={i} className="w-0.5 h-2 bg-brand/40 rounded-full" />)}
+                                  </div>
+                              </motion.div>
+                            ) : (
+                              <motion.div 
+                                key="idle"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="w-full flex items-center justify-end"
+                              >
+                                <div className="w-2 h-2 rounded-full bg-blue-900/60" />
+                              </motion.div>
+                            )}
+                         </AnimatePresence>
+                      </motion.div>
 
-                      <div className="w-full space-y-2">
-                         {[
-                           { label: "Otimização de Assets", val: "99%", color: "bg-brand/20" },
-                           { label: "Tempo de Resposta", val: "12ms", color: "bg-indigo-500/20" },
-                           { label: "SEO Score", val: "100", color: "bg-orange-500/20" }
-                         ].map((item, i) => (
-                           <div key={i} className="h-10 bg-white/5 rounded-xl border border-white/10 flex items-center justify-between px-3">
-                              <div className="flex items-center">
-                                <div className={cn("w-6 h-6 rounded-lg mr-3", item.color)} />
-                                <span className="text-white text-[10px] font-bold">{item.label}</span>
+                      {/* Content Area (IOS Home Screen) */}
+                      <div className="flex-1 px-4 pt-8 overflow-hidden flex flex-col no-scrollbar overflow-y-auto">
+                        
+                        {/* App Grid */}
+                        <div className="ios-app-grid relative">
+                          {appIcons.map((app, i) => (
+                            <motion.div 
+                              key={i} 
+                              className="ios-app-icon"
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              onClick={() => setActiveApp(app.label)}
+                            >
+                              <div className={cn("ios-icon-bg shadow-lg flex items-center justify-center", app.color)}>
+                                <app.icon size={26} className={app.iconColor || "text-white"} />
                               </div>
-                              <span className="text-brand text-[10px] font-black">{item.val}</span>
-                           </div>
-                         ))}
+                              <span className="ios-app-label drop-shadow-md">{app.label}</span>
+                            </motion.div>
+                          ))}
+                        </div>
                       </div>
 
-                      <div className="mt-6 pt-6 border-t border-white/5 w-full">
-                         <div className="flex justify-between items-center mb-2">
-                           <span className="text-gray-500 text-[8px] font-black uppercase">Traffic Origin</span>
-                           <span className="text-white text-[8px] font-bold">Global</span>
-                         </div>
-                         <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
-                            <div className="h-full bg-brand w-[85%] rounded-full" />
-                         </div>
+                      {/* Search Pill */}
+                      <div className="mx-auto mb-2">
+                        <div className="flex items-center gap-1 px-3 py-0.5 bg-black/20 backdrop-blur-md rounded-full border border-white/10">
+                          <Search size={10} className="text-white/60" />
+                          <span className="text-[9px] font-medium text-white/80">Search</span>
+                        </div>
+                      </div>
+
+                      {/* Dock */}
+                      <div className="h-20 bg-white/20 backdrop-blur-2xl m-4 mt-0 rounded-[2.5rem] flex items-center justify-around px-4 border border-white/10 shadow-2xl">
+                        {dockIcons.map((app, i) => (
+                          <motion.div 
+                            key={i} 
+                            className="w-14 h-14 rounded-[1.2rem] flex items-center justify-center shadow-lg cursor-pointer"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => setActiveApp(app.label)}
+                          >
+                            <div className={cn("w-full h-full rounded-[1.2rem] flex items-center justify-center", app.color)}>
+                               <app.icon size={30} className={app.iconColor || "text-white"} />
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+
+                      {/* Home Indicator */}
+                      <div className="pb-2 flex justify-center">
+                        <div className="w-20 h-1 bg-white/40 rounded-full" />
                       </div>
                   </div>
                </div>
@@ -196,6 +450,7 @@ export function CinematicHero({
           </div>
         </div>
       </div>
+
 
       {/* CTA Section */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto py-10">
@@ -205,11 +460,6 @@ export function CinematicHero({
         <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light leading-relaxed">
           {ctaDescription}
         </p>
-        <div className="flex justify-center">
-          <button className="btn-modern-light flex items-center justify-center gap-3 px-12 py-6 rounded-[1.5rem] group min-w-[280px]">
-            <span className="text-2xl font-black uppercase tracking-widest">Ver Cases de Sucesso</span>
-          </button>
-        </div>
       </div>
     </div>
   );

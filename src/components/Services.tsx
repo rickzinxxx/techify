@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "motion/react";
 import { Globe, Palette, Monitor, Zap } from "lucide-react";
 
 export default function Services() {
@@ -28,16 +29,29 @@ export default function Services() {
   return (
     <section className="py-24 bg-black relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
           <h2 className="text-4xl md:text-5xl font-black mb-4 uppercase tracking-tighter">
             Nossos <span className="text-brand">Serviços</span>
           </h2>
           <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Soluções completas para elevar sua presença digital</p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, idx) => (
-            <div key={idx} className="relative group h-full">
+            <motion.div 
+              key={idx} 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              whileHover={{ y: -10 }}
+              className="relative group h-full"
+            >
               <div
                 className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-brand/40 transition-all cursor-default relative overflow-hidden h-full z-10 backdrop-blur-sm"
               >
@@ -51,7 +65,7 @@ export default function Services() {
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
