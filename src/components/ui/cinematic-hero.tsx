@@ -252,7 +252,7 @@ export function CinematicHero({
       
       {/* Three.js Background Shader */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <Canvas camera={{ position: [0, 0, 10], fov: 60 }} alpha={true}>
+        <Canvas camera={{ position: [0, 0, 10], fov: 60 }} gl={{ alpha: true }}>
           <Suspense fallback={null}>
             <fog attach="fog" args={["#000000", 5, 20]} />
             <MeshGradient colors={["#000000", "#1a1a1a", "#051505", "#84cc16"]} speed={0.4} />
@@ -306,14 +306,15 @@ export function CinematicHero({
               </div>
             </div>
 
-            <div className="relative flex justify-center opacity-90 hover:opacity-100 transition-opacity duration-500">
+            <div className="relative flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-0">
                
-               {/* Qualifications around the phone */}
+               {/* Qualifications around the phone (Desktop only) */}
                {techQualifications.map((q, i) => (
                  <motion.div
                    key={i}
                    initial={{ opacity: 0, scale: 0.8, x: i % 2 === 0 ? -20 : 20 }}
-                   animate={{ opacity: 1, scale: 1, x: 0 }}
+                   whileInView={{ opacity: 1, scale: 1, x: 0 }}
+                   viewport={{ once: true }}
                    transition={{ duration: 0.8, delay: q.delay }}
                    className={cn(
                      "absolute z-50 p-4 rounded-2xl bg-black/60 backdrop-blur-md border border-white/10 w-40 md:w-48 shadow-2xl hidden lg:block",
@@ -330,7 +331,8 @@ export function CinematicHero({
                  </motion.div>
                ))}
 
-               <div className="relative w-[300px] h-[610px] md:w-[340px] md:h-[680px] rounded-[3.5rem] iphone-bezel p-[10px] bg-black flex flex-col scale-75 md:scale-90 shadow-2xl">
+               {/* iPhone Mockup */}
+               <div className="relative w-[280px] h-[580px] md:w-[340px] md:h-[684px] rounded-[3.5rem] iphone-bezel p-[10px] bg-black flex flex-col scale-90 md:scale-100 shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] z-10">
                   {/* Silent Switch */}
                   <div className="absolute left-[-2px] top-24 w-[2px] h-8 bg-gray-600 rounded-l-md" />
                   {/* Volume Buttons */}
@@ -343,7 +345,7 @@ export function CinematicHero({
                       
                       {/* Top Bar / Status Bar */}
                       <div className="h-10 flex items-center justify-between px-8 pt-6 z-30">
-                        <span className="text-[10px] font-bold text-white">4:59</span>
+                        <span className="text-[10px] font-bold text-white uppercase tracking-tighter">19:24</span>
                         <div className="flex items-center gap-1.5 text-white">
                           <Signal size={12} />
                           <Wifi size={12} />
@@ -355,9 +357,9 @@ export function CinematicHero({
                       <motion.div 
                         initial={false}
                         animate={{ 
-                          width: activeApp ? 160 : 96,
-                          height: activeApp ? 30 : 26,
-                          borderRadius: activeApp ? 15 : 13,
+                          width: activeApp ? 140 : 80,
+                          height: activeApp ? 28 : 22,
+                          borderRadius: activeApp ? 14 : 11,
                         }}
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                         className="absolute top-2 left-1/2 -translate-x-1/2 bg-black z-40 flex items-center justify-between px-3 overflow-hidden shadow-lg border border-white/5"
@@ -371,12 +373,12 @@ export function CinematicHero({
                                 exit={{ opacity: 0, scale: 0.8 }}
                                 className="w-full flex items-center justify-between"
                               >
-                                  <div className="w-4 h-4 rounded-full bg-brand/20 flex items-center justify-center">
+                                  <div className="w-3 h-3 rounded-full bg-brand/20 flex items-center justify-center">
                                     <div className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
                                   </div>
-                                  <span className="text-[9px] font-black tracking-tight text-white/90 uppercase">{activeApp}</span>
+                                  <span className="text-[7px] font-black tracking-tight text-white/90 uppercase truncate max-w-[80px]">{activeApp}</span>
                                   <div className="flex gap-0.5">
-                                    {[1,2,3].map(i => <div key={i} className="w-0.5 h-2 bg-brand/40 rounded-full" />)}
+                                    {[1,2,3].map(i => <div key={i} className="w-0.5 h-1.5 bg-brand/40 rounded-full" />)}
                                   </div>
                               </motion.div>
                             ) : (
@@ -387,14 +389,14 @@ export function CinematicHero({
                                 exit={{ opacity: 0 }}
                                 className="w-full flex items-center justify-end"
                               >
-                                <div className="w-2 h-2 rounded-full bg-blue-900/60" />
+                                <div className="w-1.5 h-1.5 rounded-full bg-blue-900/60" />
                               </motion.div>
                             )}
                          </AnimatePresence>
                       </motion.div>
 
                       {/* Content Area (IOS Home Screen) */}
-                      <div className="flex-1 px-4 pt-8 overflow-hidden flex flex-col no-scrollbar overflow-y-auto">
+                      <div className="flex-1 px-4 pt-6 overflow-hidden flex flex-col no-scrollbar overflow-y-auto">
                         
                         {/* App Grid */}
                         <div className="ios-app-grid relative">
@@ -406,10 +408,10 @@ export function CinematicHero({
                               whileTap={{ scale: 0.9 }}
                               onClick={() => setActiveApp(app.label)}
                             >
-                              <div className={cn("ios-icon-bg shadow-lg flex items-center justify-center", app.color)}>
-                                <app.icon size={26} className={app.iconColor || "text-white"} />
+                              <div className={cn("ios-icon-bg shadow-lg flex items-center justify-center border border-white/5", app.color)}>
+                                <app.icon size={22} className={app.iconColor || "text-white"} />
                               </div>
-                              <span className="ios-app-label drop-shadow-md">{app.label}</span>
+                              <span className="ios-app-label drop-shadow-md text-[8px] mt-1 font-semibold">{app.label}</span>
                             </motion.div>
                           ))}
                         </div>
@@ -417,24 +419,24 @@ export function CinematicHero({
 
                       {/* Search Pill */}
                       <div className="mx-auto mb-2">
-                        <div className="flex items-center gap-1 px-3 py-0.5 bg-black/20 backdrop-blur-md rounded-full border border-white/10">
-                          <Search size={10} className="text-white/60" />
-                          <span className="text-[9px] font-medium text-white/80">Search</span>
+                        <div className="flex items-center gap-1 px-3 py-0.5 bg-black/30 backdrop-blur-md rounded-full border border-white/10">
+                          <Search size={8} className="text-white/60" />
+                          <span className="text-[7px] font-black text-white/80 uppercase tracking-widest">Search</span>
                         </div>
                       </div>
 
                       {/* Dock */}
-                      <div className="h-20 bg-white/20 backdrop-blur-2xl m-4 mt-0 rounded-[2.5rem] flex items-center justify-around px-4 border border-white/10 shadow-2xl">
+                      <div className="h-16 bg-white/15 backdrop-blur-3xl m-3 mt-0 rounded-[2rem] flex items-center justify-around px-3 border border-white/10 shadow-2xl">
                         {dockIcons.map((app, i) => (
                           <motion.div 
                             key={i} 
-                            className="w-14 h-14 rounded-[1.2rem] flex items-center justify-center shadow-lg cursor-pointer"
-                            whileHover={{ scale: 1.1 }}
+                            className="w-11 h-11 rounded-[1rem] flex items-center justify-center shadow-lg cursor-pointer"
+                            whileHover={{ scale: 1.1, y: -4 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={() => setActiveApp(app.label)}
                           >
-                            <div className={cn("w-full h-full rounded-[1.2rem] flex items-center justify-center", app.color)}>
-                               <app.icon size={30} className={app.iconColor || "text-white"} />
+                            <div className={cn("w-full h-full rounded-[1rem] flex items-center justify-center", app.color)}>
+                               <app.icon size={22} className={app.iconColor || "text-white"} />
                             </div>
                           </motion.div>
                         ))}
@@ -442,10 +444,31 @@ export function CinematicHero({
 
                       {/* Home Indicator */}
                       <div className="pb-2 flex justify-center">
-                        <div className="w-20 h-1 bg-white/40 rounded-full" />
+                        <div className="w-16 h-1 bg-white/30 rounded-full" />
                       </div>
                   </div>
                </div>
+
+               {/* Mobile Qualifications Grid */}
+               <div className="lg:hidden grid grid-cols-2 gap-3 w-full max-w-sm mt-4">
+                 {techQualifications.map((q, i) => (
+                   <motion.div
+                     key={i}
+                     initial={{ opacity: 0, y: 20 }}
+                     whileInView={{ opacity: 1, y: 0 }}
+                     viewport={{ once: true }}
+                     transition={{ duration: 0.5, delay: i * 0.1 }}
+                     className="p-3 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 flex flex-col gap-2 shadow-xl"
+                   >
+                     <div className="p-1.5 rounded-lg bg-brand/20 w-fit">
+                       <q.icon size={12} className="text-brand" />
+                     </div>
+                     <span className="text-[9px] font-black uppercase tracking-widest text-brand">{q.label}</span>
+                     <p className="text-[9px] text-gray-400 leading-tight font-medium">{q.desc}</p>
+                   </motion.div>
+                 ))}
+               </div>
+
             </div>
           </div>
         </div>

@@ -1077,11 +1077,11 @@ export default function Courses() {
             <motion.h1 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-6xl md:text-7xl font-black mb-4"
+              className="text-4xl sm:text-5xl md:text-7xl font-black mb-4 leading-[0.9]"
             >
               Academia <span className="text-brand">Techify</span>
             </motion.h1>
-            <p className="text-gray-400 text-lg">Cursos inteligentes gerados por IA para o seu futuro digital</p>
+            <p className="text-gray-400 text-base md:text-lg">Cursos inteligentes gerados por IA para o seu futuro digital</p>
           </div>
           
           <div className="flex gap-4">

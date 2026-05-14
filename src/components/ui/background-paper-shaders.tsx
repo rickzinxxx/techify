@@ -255,7 +255,7 @@ export function DotOrbit({
   intensity = 1.0
 }) {
   const mesh = useRef<THREE.Points>(null);
-  const count = 1500;
+  const count = 800; // Reduced count for mobile performance
   
   const particles = useMemo(() => {
     const positions = new Float32Array(count * 3);
@@ -267,7 +267,7 @@ export function DotOrbit({
       sizes[i] = Math.random();
     }
     return { positions, sizes };
-  }, []);
+  }, [count]);
 
   useFrame((state) => {
     if (mesh.current) {
@@ -287,10 +287,10 @@ export function DotOrbit({
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.12 * intensity}
+        size={0.1 * intensity}
         color={dotColor}
         transparent
-        opacity={0.8}
+        opacity={0.5}
         sizeAttenuation
         blending={THREE.AdditiveBlending}
       />

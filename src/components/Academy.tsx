@@ -63,8 +63,8 @@ export default function Academy({ onExplore }: AcademyProps) {
             <GraduationCap size={18} />
             Academia Techify
           </div>
-          <h2 className="text-3xl md:text-5xl font-black mb-8 tracking-tighter leading-[0.85]">
-            CONHECIMENTO <br/> <span className="text-brand italic underline decoration-white/10 underline-offset-8">SEM LIMITES.</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-8 tracking-tighter leading-[0.9]">
+            CONHECIMENTO <br className="hidden sm:block"/> <span className="text-brand italic underline decoration-white/10 underline-offset-8">SEM LIMITES.</span>
           </h2>
           <p className="max-w-3xl mx-auto text-white/40 text-lg md:text-xl font-light leading-relaxed">
             Nossa IA proprietária gera trilhas personalizadas de aprendizado em tempo real. Programação, design e high-performance ao seu alcance, totalmente grátis.

@@ -35,14 +35,14 @@ export default function FinalCTA({ onViewPortfolio }: { onViewPortfolio?: () => 
             </motion.div>
             
             <h2 
-              className="text-4xl md:text-7xl font-black tracking-tighter text-white mb-8 uppercase leading-none"
+              className="text-3xl sm:text-4xl md:text-7xl font-black tracking-tighter text-white mb-8 uppercase leading-[0.9]"
             >
               O DESIGN QUE VOCÊ <br/> 
               <span className="text-brand italic">SÓ ENCONTRA AQUI.</span>
             </h2>
             
             <p 
-              className="text-white/50 text-lg md:text-2xl max-w-3xl mx-auto mb-12 leading-relaxed font-light"
+              className="text-white/50 text-base md:text-2xl max-w-3xl mx-auto mb-12 leading-relaxed font-light"
             >
               Assim como um supercarro, um site de alta performance precisa de harmonia entre o que se vê e o que está por baixo. Na <span className="text-white font-bold tracking-tight">Techify</span>, unimos interfaces que encantam com uma engenharia de código que converte visitantes em lucros.
             </p>

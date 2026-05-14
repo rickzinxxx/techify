@@ -181,18 +181,18 @@ export default function Portfolio() {
   const categories = ["Todos", "Landing Page", "Corporativo", "E-commerce", "Blog", "Portfólio", "Plataforma", "Outro"];
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-6 bg-black relative overflow-hidden">
+    <div className="min-h-screen pt-24 pb-20 px-4 md:px-6 bg-black relative overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand/10 blur-[150px] -z-10" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/10 blur-[150px] -z-10" />
 
       <div className="max-w-7xl mx-auto">
-        <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
           <div>
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-5xl md:text-7xl font-black mb-4 flex items-center gap-4"
+              className="text-4xl sm:text-5xl md:text-7xl font-black mb-4 flex flex-wrap items-center gap-x-4 gap-y-2"
             >
               Portfólio de <span className="text-brand">Sites</span>
             </motion.h1>
@@ -200,58 +200,59 @@ export default function Portfolio() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-gray-400 text-lg max-w-2xl"
+              className="text-gray-400 text-base md:text-lg max-w-2xl"
             >
               Explore nossa galeria de projetos desenvolvidos com excelência, 
               performance e design de alto impacto.
             </motion.p>
           </div>
 
-          {isAdmin(user?.email) && (
-            <div className="flex gap-4">
-               {sites.length === INITIAL_SITES.length && sites[0].id === "1" && (
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    whileHover={{ scale: 1.05 }}
-                    onClick={handleMigrate}
-                    className="bg-white/10 text-white font-bold h-14 px-8 rounded-2xl flex items-center gap-2 border border-brand/20 transition-all"
-                  >
-                    {isMigrating ? <motion.div animate={{rotate:360}} transition={{repeat:Infinity,duration:1}} className="w-4 h-4 border-2 border-brand border-t-transparent rounded-full" /> : <Sparkles size={18} className="text-brand" />}
-                    Migrar para Nuvem
-                  </motion.button>
-               )}
+          <div className="flex flex-col sm:flex-row gap-4">
+             {isAdmin(user?.email) && sites.length === INITIAL_SITES.length && sites[0].id === "1" && (
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileHover={{ scale: 1.05 }}
+                  onClick={handleMigrate}
+                  className="bg-white/10 text-white font-bold h-12 md:h-14 px-6 md:px-8 rounded-2xl flex items-center justify-center gap-2 border border-brand/20 transition-all text-sm md:text-base"
+                >
+                  {isMigrating ? <motion.div animate={{rotate:360}} transition={{repeat:Infinity,duration:1}} className="w-4 h-4 border-2 border-brand border-t-transparent rounded-full" /> : <Sparkles size={18} className="text-brand" />}
+                  Migrar
+                </motion.button>
+             )}
+             
+             {isAdmin(user?.email) && (
               <motion.button
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleOpenAddModal}
-                className="bg-brand text-black font-bold h-14 px-8 rounded-2xl flex items-center gap-2 shadow-[0_0_30px_rgba(132,204,22,0.3)] transition-all"
+                className="bg-brand text-black font-bold h-12 md:h-14 px-6 md:px-8 rounded-2xl flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(132,204,22,0.3)] transition-all text-sm md:text-base"
               >
                 <Plus size={20} />
-                Adicionar Site
+                Novo Site
               </motion.button>
-            </div>
-          )}
+             )}
 
-          {!user ? (
-            <button 
-              onClick={() => signInWithGoogle()}
-              className="text-gray-500 hover:text-brand flex items-center gap-2 text-xs font-black uppercase tracking-widest bg-white/5 px-4 h-14 rounded-2xl border border-white/10"
-            >
-              <LogIn size={16} />
-              Admin
-            </button>
-          ) : (
-             <button 
-              onClick={() => logout()}
-              className="text-red-500 hover:text-red-400 flex items-center gap-2 text-xs font-black uppercase tracking-widest bg-red-500/5 px-4 h-14 rounded-2xl border border-red-500/20"
-            >
-              <LogOut size={16} />
-              Sair ({user.email?.split('@')[0]})
-            </button>
-          )}
+            {!user ? (
+              <button 
+                onClick={() => signInWithGoogle()}
+                className="text-gray-500 hover:text-brand flex items-center justify-center gap-2 text-[10px] md:text-xs font-black uppercase tracking-widest bg-white/5 px-4 h-12 md:h-14 rounded-2xl border border-white/10"
+              >
+                <LogIn size={16} />
+                Admin
+              </button>
+            ) : (
+               <button 
+                onClick={() => logout()}
+                className="text-red-500 hover:text-red-400 flex items-center justify-center gap-2 text-[10px] md:text-xs font-black uppercase tracking-widest bg-red-500/5 px-4 h-12 md:h-14 rounded-2xl border border-red-500/20"
+              >
+                <LogOut size={16} />
+                Sair
+              </button>
+            )}
+          </div>
         </header>
 
         {loading && (

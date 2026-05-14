@@ -163,7 +163,7 @@ export default function Careers() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-6xl md:text-8xl font-black mb-6"
+            className="text-4xl sm:text-5xl md:text-8xl font-black mb-6 leading-[0.9]"
           >
             Junte-se ao <span className="text-brand">Time Techify</span>
           </motion.h1>
@@ -171,13 +171,13 @@ export default function Careers() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto"
+            className="text-gray-400 text-base md:text-xl max-w-3xl mx-auto"
           >
             Construa o futuro do design digital conosco. Estamos procurando talentos 
             apaixonados por criar experiências incríveis.
           </motion.p>
 
-          <div className="flex items-center justify-center gap-4 mt-10">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
             {isAdmin(user?.email) && (
               <motion.button
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -186,7 +186,7 @@ export default function Careers() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsPublishModalOpen(true)}
-                className="bg-brand text-black font-black uppercase tracking-wider h-14 px-10 rounded-2xl flex items-center gap-2 shadow-[0_0_40px_rgba(132,204,22,0.2)] hover:shadow-[0_0_60px_rgba(132,204,22,0.4)] transition-all"
+                className="w-full sm:w-auto bg-brand text-black font-black uppercase tracking-wider h-12 md:h-14 px-8 md:px-10 rounded-2xl flex items-center justify-center gap-2 shadow-[0_0_40px_rgba(132,204,22,0.2)]"
               >
                 <Plus size={20} />
                 Publicar Vaga
@@ -196,7 +196,7 @@ export default function Careers() {
             {!user ? (
               <button 
                 onClick={() => signInWithGoogle()}
-                className="text-gray-500 hover:text-brand flex items-center gap-2 text-xs font-black uppercase tracking-widest bg-white/5 px-6 h-14 rounded-2xl border border-white/10"
+                className="w-full sm:w-auto text-gray-500 hover:text-brand flex items-center justify-center gap-2 text-[10px] md:text-xs font-black uppercase tracking-widest bg-white/5 px-6 h-12 md:h-14 rounded-2xl border border-white/10"
               >
                 <LogIn size={16} />
                 Admin
@@ -204,10 +204,10 @@ export default function Careers() {
             ) : (
                <button 
                 onClick={() => logout()}
-                className="text-red-500 hover:text-red-400 flex items-center gap-2 text-xs font-black uppercase tracking-widest bg-red-500/5 px-6 h-14 rounded-2xl border border-red-500/20"
+                className="w-full sm:w-auto text-red-500 hover:text-red-400 flex items-center justify-center gap-2 text-[10px] md:text-xs font-black uppercase tracking-widest bg-red-500/5 px-6 h-12 md:h-14 rounded-2xl border border-red-500/20"
               >
                 <LogOut size={16} />
-                Sair ({user.email?.split('@')[0]})
+                Sair
               </button>
             )}
           </div>
