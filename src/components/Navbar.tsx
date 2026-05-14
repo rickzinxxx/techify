@@ -62,7 +62,7 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
   ].filter(item => !adminTabs.includes(item.label) || isUserAdmin);
 
   const dockIcons = mobileNavItems.map(item => ({
-    icon: <item.icon size={24} strokeWidth={activeTab === item.label ? 2.5 : 2} />,
+    icon: <item.icon size={20} strokeWidth={activeTab === item.label ? 2.5 : 1.5} />,
     alt: item.label,
     active: activeTab === item.label,
     onClick: () => setActiveTab(item.label)
@@ -104,25 +104,38 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
       </nav>
 
       {/* Mobile Top Bar */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-[999] bg-black/80 backdrop-blur-3xl border-b border-white/5 flex flex-col pt-5 pb-2 shadow-2xl overflow-hidden">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-[999] bg-black/60 backdrop-blur-3xl border-b border-white/5 flex flex-col pt-4 pb-1 shadow-2xl overflow-hidden">
         {/* Subtle decorative glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-10 bg-brand/20 blur-3xl rounded-full pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-8 bg-brand/10 blur-2xl rounded-full pointer-events-none" />
         
-        <div className="flex items-center justify-between px-6 mb-5 relative z-10">
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveTab("Início")}>
-            <div className="w-2.5 h-6 bg-brand rounded-full shadow-[0_0_15px_rgba(132,204,22,0.8)]"></div>
-            <span className="text-2xl font-black tracking-tighter text-white uppercase italic">Techify</span>
+        <div className="flex items-center justify-between px-6 mb-4 relative z-10">
+          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => setActiveTab("Início")}>
+            <div className="w-2 h-6 bg-brand rounded-full shadow-[0_0_15px_rgba(132,204,22,0.6)]"></div>
+            <span className="text-xl font-black tracking-tighter text-white uppercase italic">Techify</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="px-3 py-1.5 bg-brand/10 rounded-xl border border-brand/20 backdrop-blur-md">
-              <span className="text-[10px] font-black text-brand uppercase tracking-widest whitespace-nowrap">Alpha</span>
+            <div className="px-2.5 py-1.5 bg-brand/10 rounded-lg border border-brand/20">
+              <span className="text-[9px] font-black text-brand uppercase tracking-widest whitespace-nowrap">Alpha Access</span>
             </div>
           </div>
         </div>
         
-        {/* Scrollable Tabs Area - Liquid Glass Style */}
-        <div className="px-5 pb-2 relative z-10">
-          <GlassDock icons={dockIcons} className="w-full" />
+        {/* Scrollable Tabs Area - Native feeling scroll */}
+        <div className="flex items-center gap-3 overflow-x-auto no-scrollbar scroll-smooth px-6 pb-4 -mb-[1px] relative z-10">
+          {navItems.map((item) => (
+            <button
+              key={item.label}
+              onClick={() => setActiveTab(item.label)}
+              className={`flex items-center gap-2 text-[11px] font-black uppercase tracking-widest transition-all whitespace-nowrap cursor-pointer relative px-5 py-3 rounded-xl border-2 ${
+                activeTab === item.label 
+                  ? "text-black bg-brand border-brand shadow-[0_0_20px_rgba(132,204,22,0.4)] scale-[1.02]" 
+                  : "text-white/40 bg-white/5 border-transparent"
+              }`}
+            >
+              <item.icon size={12} strokeWidth={3} />
+              {item.label}
+            </button>
+          ))}
         </div>
       </div>
     </>

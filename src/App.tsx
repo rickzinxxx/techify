@@ -98,7 +98,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-black text-white selection:bg-brand/30">
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <main className="pt-[170px] md:pt-0">
+      <main className="pt-[130px] md:pt-0">
         {renderContent()}
       </main>
       <Suspense fallback={null}>
