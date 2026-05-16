@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { GlowCard } from "./ui/spotlight-card";
+// ... (rest of imports)
 import { 
   Briefcase, 
   MapPin, 
@@ -7,6 +9,7 @@ import {
   ChevronRight, 
   Plus, 
   X, 
+  Upload, 
   Send,
   User as UserIcon,
   Mail,
@@ -153,7 +156,7 @@ export default function Careers() {
   const departments = ["Todos", "Design", "Desenvolvimento", "Marketing", "Vendas", "Outro"];
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-6 bg-black relative">
+    <div className="min-h-screen pt-4 md:pt-24 pb-20 px-6 bg-transparent relative">
        {/* Background Effects */}
        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-brand/5 blur-[120px] rounded-full -z-10" />
        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-purple-500/5 blur-[120px] rounded-full -z-10" />
@@ -266,46 +269,49 @@ export default function Careers() {
                   setSelectedVacancy(vacancy);
                   setIsDetailModalOpen(true);
                 }}
-                className="group bg-[#111] border border-white/5 p-8 rounded-3xl hover:border-brand/40 transition-all cursor-pointer relative overflow-hidden"
+                className="h-full"
               >
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex flex-col gap-3">
-                    <h3 className="text-2xl font-black uppercase tracking-tight group-hover:text-brand transition-colors">
-                      {vacancy.title}
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                       <span className="px-3 py-1 bg-white/5 rounded-lg text-[10px] font-black uppercase tracking-widest text-gray-500">
-                        {vacancy.department}
-                      </span>
-                      <span className="px-3 py-1 bg-brand/10 rounded-lg text-[10px] font-black uppercase tracking-widest text-brand">
-                        {vacancy.type}
-                      </span>
+                <GlowCard 
+                  glowColor={vacancy.department === "Desenvolvimento" ? "blue" : "green"}
+                  customSize
+                  className="group bg-[#111] border border-white/5 p-8 rounded-3xl hover:border-brand/40 transition-all cursor-pointer relative overflow-hidden h-full"
+                >
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="flex flex-col gap-3">
+                      <h3 className="text-2xl font-black uppercase tracking-tight group-hover:text-brand transition-colors text-white">
+                        {vacancy.title}
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-3 py-1 bg-white/5 rounded-lg text-[10px] font-black uppercase tracking-widest text-gray-500">
+                          {vacancy.department}
+                        </span>
+                        <span className="px-3 py-1 bg-brand/10 rounded-lg text-[10px] font-black uppercase tracking-widest text-brand">
+                          {vacancy.type}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {isAdmin(user?.email) && (
+                        <button 
+                          onClick={(e) => handleDelete(vacancy.id, e)}
+                          className="p-2 bg-red-500/20 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      )}
+                      <ChevronRight size={24} className="text-gray-600 group-hover:text-brand group-hover:translate-x-1 transition-all" />
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    {isAdmin(user?.email) && (
-                      <button 
-                        onClick={(e) => handleDelete(vacancy.id, e)}
-                        className="p-2 bg-red-500/20 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    )}
-                    <ChevronRight size={24} className="text-gray-600 group-hover:text-brand group-hover:translate-x-1 transition-all" />
+
+                  <div className="flex items-center gap-2 text-gray-500 mb-6 text-sm">
+                    <MapPin size={16} />
+                    {vacancy.location}
                   </div>
-                </div>
 
-                <div className="flex items-center gap-2 text-gray-500 mb-6 text-sm">
-                  <MapPin size={16} />
-                  {vacancy.location}
-                </div>
-
-                <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">
-                  {vacancy.description}
-                </p>
-
-                {/* Hover Glow */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-brand/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">
+                    {vacancy.description}
+                  </p>
+                </GlowCard>
               </motion.div>
             ))}
           </AnimatePresence>

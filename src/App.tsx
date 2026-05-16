@@ -1,6 +1,7 @@
 import { useState, lazy, Suspense, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
+import { SmokeyBackground } from "./components/ui/smokey-background";
 import { auth, isAdmin } from "./lib/firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
 
@@ -88,17 +89,19 @@ export default function App() {
         ) : null;
       default:
         return (
-          <Suspense fallback={<div className="min-h-screen pt-24 text-center">Carregando...</div>}>
-            <Courses />
-          </Suspense>
+          <div className="min-h-screen pt-24 px-6 flex flex-col items-center justify-center text-center">
+            <h1 className="text-4xl font-black mb-4 text-brand uppercase tracking-widest">{activeTab}</h1>
+            <p className="text-gray-500 max-w-md">Esta seção está sendo preparada com a excelência Techify.</p>
+          </div>
         );
     }
   };
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-brand/30">
+    <div className="min-h-screen flex flex-col bg-transparent text-white selection:bg-brand/30 relative">
+      <SmokeyBackground backdropBlurAmount="3xl" color="#84cc16" opacity={0.8} />
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <main className="pt-[130px] md:pt-0">
+      <main className="flex-1 pt-16 md:pt-0 pb-36 md:pb-0 relative z-10">
         {renderContent()}
       </main>
       <Suspense fallback={null}>

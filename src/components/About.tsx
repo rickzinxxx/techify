@@ -2,7 +2,7 @@ import { CinematicHero } from "./ui/cinematic-hero";
 
 export default function About() {
   return (
-    <section id="sobre" className="relative group">
+    <section id="sobre" className="relative group bg-transparent">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-brand/5 blur-[120px] rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
       <CinematicHero 
         brandName="TECHIFY"

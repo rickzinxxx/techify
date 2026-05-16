@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { GlowCard } from "./ui/spotlight-card";
+import WarpShader from "./ui/warp-shader";
 import { 
   Globe, 
   ExternalLink, 
@@ -181,26 +183,26 @@ export default function Portfolio() {
   const categories = ["Todos", "Landing Page", "Corporativo", "E-commerce", "Blog", "Portfólio", "Plataforma", "Outro"];
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-4 md:px-6 bg-black relative overflow-hidden">
+    <WarpShader className="min-h-screen pt-12 md:pt-32 pb-20 px-4 md:px-6 bg-transparent relative">
       {/* Background Glow */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand/10 blur-[150px] -z-10" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/10 blur-[150px] -z-10" />
 
       <div className="max-w-7xl mx-auto">
-        <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
-          <div>
+        <header className="flex flex-col xl:flex-row xl:items-end justify-between gap-8 mb-12">
+          <div className="max-w-4xl">
             <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-4xl sm:text-5xl md:text-7xl font-black mb-4 flex flex-wrap items-center gap-x-4 gap-y-2"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-6 flex flex-wrap items-center gap-x-4 gap-y-2 uppercase tracking-tighter leading-[0.9]"
             >
-              Portfólio de <span className="text-brand">Sites</span>
+              Portfólio de <span className="text-brand italic">Sites</span>
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-gray-400 text-base md:text-lg max-w-2xl"
+              className="text-gray-500 text-base md:text-xl max-w-2xl font-medium leading-relaxed"
             >
               Explore nossa galeria de projetos desenvolvidos com excelência, 
               performance e design de alto impacto.
@@ -294,89 +296,115 @@ export default function Portfolio() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
           <AnimatePresence mode="popLayout">
-            {filteredSites.map((site, index) => (
+            {filteredSites.map((site, idx) => (
               <motion.div
                 key={site.id}
                 layout
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="group relative bg-[#0f0f0f] border border-white/5 rounded-3xl overflow-hidden hover:border-brand/30 transition-all duration-500"
+                transition={{ 
+                  duration: 0.6, 
+                  delay: idx * 0.05,
+                  ease: [0.16, 1, 0.3, 1] 
+                }}
+                className="h-full"
               >
-                {/* Image Container */}
-                <div className="aspect-[4/3] md:aspect-[16/10] overflow-hidden relative bg-[#0a0a0a] flex items-center justify-center border-b border-white/5">
-                  <img 
-                    src={site.image} 
-                    alt={site.name}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                    title={`Preview of ${site.name}`}
-                    className="w-full h-full object-contain md:object-cover group-hover:scale-[1.02] transition-transform duration-700"
-                  />
-                  {/* Overlay Controls */}
-                  {isAdmin(user?.email) && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                      <button 
-                        onClick={() => handleOpenEditModal(site)}
-                        className="w-12 h-12 rounded-full bg-blue-500/80 text-white flex items-center justify-center hover:scale-110 transition-transform"
-                      >
-                        <Pencil size={20} />
-                      </button>
-                      <button 
-                        onClick={() => handleDelete(site.id)}
-                        className="w-12 h-12 rounded-full bg-red-500/80 text-white flex items-center justify-center hover:scale-110 transition-transform"
-                      >
-                        <Trash2 size={20} />
-                      </button>
+                <GlowCard 
+                  glowColor={site.category === "3D Experience" ? "purple" : site.category === "E-commerce" ? "orange" : "blue"}
+                  customSize
+                  className="group relative bg-[#050505] border border-white/5 rounded-[2rem] overflow-hidden hover:border-brand/40 transition-all duration-700 h-full p-0 flex flex-col"
+                >
+                  {/* Image Container */}
+                  <div className="aspect-[16/10] overflow-hidden relative bg-[#0a0a0a] flex items-center justify-center border-b border-white/5">
+                    <img 
+                      src={site.image} 
+                      alt={site.name}
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                      title={`Preview of ${site.name}`}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
+                    />
+                    {/* Overlay Controls */}
+                    {isAdmin(user?.email) && (
+                      <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-5 z-20">
+                        <motion.button 
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={(e) => { e.stopPropagation(); handleOpenEditModal(site); }}
+                          className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-brand hover:text-black transition-all shadow-xl"
+                        >
+                          <Pencil size={22} />
+                        </motion.button>
+                        <motion.button 
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={(e) => { e.stopPropagation(); handleDelete(site.id); }}
+                          className="w-14 h-14 rounded-2xl bg-red-500/20 backdrop-blur-md border border-red-500/30 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-xl"
+                        >
+                          <Trash2 size={22} />
+                        </motion.button>
+                      </div>
+                    )}
+                    
+                    <div className="absolute top-5 left-5 z-10">
+                      <span className="px-4 py-1.5 bg-black/60 backdrop-blur-xl rounded-full text-[9px] font-black uppercase tracking-[0.2em] text-brand border border-white/10 shadow-2xl">
+                        {site.category}
+                      </span>
                     </div>
-                  )}
-                  
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1.2 bg-black/60 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-brand border border-white/10">
-                      {site.category}
-                    </span>
-                  </div>
 
-                  <button 
-                    onClick={() => window.open(site.url, "_blank")}
-                    className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-white flex items-center justify-center hover:bg-white transition-all hover:text-black"
-                  >
-                    <ExternalLink size={16} />
-                  </button>
-                </div>
-
-                {/* Content */}
-                <div className="p-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-2xl font-black tracking-tight">{site.name}</h3>
-                    <Globe size={18} className="text-gray-600 group-hover:text-brand transition-colors" />
-                  </div>
-                  <p className="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
-                    {site.description}
-                  </p>
-                  
-                  {site.threeDUrl && (
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => window.open(site.threeDUrl, "_blank")}
-                      className="w-full mb-6 h-12 bg-gradient-to-r from-purple-600 via-brand to-blue-600 rounded-xl text-white font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(132,204,22,0.3)] border border-white/10"
+                    <button 
+                      onClick={() => window.open(site.url, "_blank")}
+                      className="absolute bottom-5 right-5 w-12 h-12 rounded-2xl bg-brand/10 backdrop-blur-xl border border-brand/20 text-brand flex items-center justify-center hover:bg-brand transition-all hover:text-black shadow-2xl z-10"
                     >
-                      <Box size={16} className="animate-bounce" />
-                      Acessar Experiência 3D
-                    </motion.button>
-                  )}
-
-                  <div className="flex items-center gap-2 pt-4 border-t border-white/5">
-                    <CheckCircle2 size={14} className="text-brand" />
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">
-                      Projeto Verificado
-                    </span>
+                      <ExternalLink size={20} />
+                    </button>
                   </div>
-                </div>
+
+                  {/* Content */}
+                  <div className="p-8 flex-1 flex flex-col">
+                    <div className="flex items-start justify-between mb-4 group/title">
+                      <h3 className="text-3xl font-black tracking-tighter leading-none group-hover/title:text-brand transition-colors text-white">{site.name}</h3>
+                      <Globe size={20} className="text-white/10 group-hover:text-brand transition-colors flex-shrink-0 mt-1" />
+                    </div>
+                    
+                    <p className="text-gray-500 text-sm leading-relaxed mb-8 line-clamp-3 font-medium">
+                      {site.description}
+                    </p>
+                    
+                    <div className="mt-auto space-y-4">
+                      {site.threeDUrl && (
+                        <motion.button
+                          whileHover={{ scale: 1.02, y: -2 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => window.open(site.threeDUrl, "_blank")}
+                          className="w-full h-14 bg-white/5 hover:bg-white/10 rounded-2xl text-white font-black text-[10px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 transition-all border border-white/10"
+                        >
+                          <Box size={18} className="text-brand" />
+                          Experiência 3D Imersiva
+                        </motion.button>
+                      )}
+
+                      <div className="flex items-center justify-between pt-6 border-t border-white/5">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-2 h-2 rounded-full bg-brand animate-pulse shadow-[0_0_10px_#84cc16]" />
+                          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/20 group-hover:text-white/40 transition-colors">
+                            Techify Certified Project
+                          </span>
+                        </div>
+                        <div className="flex -space-x-2">
+                           {[1,2,3].map(i => (
+                             <div key={i} className="w-6 h-6 rounded-full border-2 border-[#050505] bg-white/5 flex items-center justify-center overflow-hidden">
+                                <Box size={10} className="text-white/20" />
+                             </div>
+                           ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </GlowCard>
               </motion.div>
             ))}
           </AnimatePresence>
@@ -546,6 +574,6 @@ export default function Portfolio() {
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </WarpShader>
   );
 }

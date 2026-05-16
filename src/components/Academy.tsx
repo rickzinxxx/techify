@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { GraduationCap, ArrowRight, Brain, Languages, Smile } from "lucide-react";
+import { GlowCard } from "./ui/spotlight-card";
 
 interface AcademyProps {
   onExplore?: () => void;
@@ -49,7 +50,7 @@ export default function Academy({ onExplore }: AcademyProps) {
   ];
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden bg-transparent">
       <div className="absolute top-[10%] left-[-10%] w-[40%] h-[40%] bg-brand/5 blur-[100px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[10%] right-[-10%] w-[40%] h-[40%] bg-brand/5 blur-[100px] rounded-full pointer-events-none" />
       <div className="container mx-auto px-4 relative z-10">
@@ -79,30 +80,35 @@ export default function Academy({ onExplore }: AcademyProps) {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.6 }}
-              whileHover={{ scale: 1.01, x: idx % 2 === 0 ? 5 : -5 }}
-              className={`p-8 rounded-3xl border ${card.color} group hover:border-brand/40 transition-all cursor-pointer`}
+              className="h-full"
             >
-              <div className="flex items-start justify-between mb-6">
-                <motion.div 
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="p-3 rounded-2xl bg-white/5 border border-white/10"
-                >
-                  <card.icon className="text-brand" size={28} />
-                </motion.div>
-                <span className={`px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-wider ${card.tagColor}`}>
-                  {card.tag}
-                </span>
-              </div>
-              <h3 className="text-2xl font-bold mb-4 group-hover:text-brand transition-colors">{card.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                {card.description}
-              </p>
-              <button 
-                onClick={onExplore}
-                className="flex items-center gap-2 text-brand font-bold text-sm group-hover:gap-4 transition-all cursor-pointer"
+              <GlowCard 
+                glowColor={card.title.includes("Idiomas") ? "orange" : card.title.includes("IA") ? "purple" : "green"}
+                customSize
+                className={`p-8 rounded-3xl border ${card.color} group hover:border-brand/40 transition-all cursor-pointer h-full`}
               >
-                Explorar cursos <ArrowRight size={16} />
-              </button>
+                <div className="flex items-start justify-between mb-6">
+                  <motion.div 
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    className="p-3 rounded-2xl bg-white/5 border border-white/10"
+                  >
+                    <card.icon className="text-brand" size={28} />
+                  </motion.div>
+                  <span className={`px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-wider ${card.tagColor}`}>
+                    {card.tag}
+                  </span>
+                </div>
+                <h3 className="text-2xl font-bold mb-4 group-hover:text-brand transition-colors text-white">{card.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                  {card.description}
+                </p>
+                <button 
+                  onClick={onExplore}
+                  className="flex items-center gap-2 text-brand font-bold text-sm group-hover:gap-4 transition-all cursor-pointer"
+                >
+                  Explorar cursos <ArrowRight size={16} />
+                </button>
+              </GlowCard>
             </motion.div>
           ))}
         </div>

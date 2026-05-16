@@ -1,5 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { GlowCard } from "./ui/spotlight-card";
+// ... (rest of imports)
 import { Search, Globe, Code, Brain, Palette, Briefcase, GraduationCap, Sparkles, CheckCircle2, ArrowRight, ArrowLeft, Play, Award, Loader2, BookOpen, PenLine, Cpu, ChevronRight, CheckCircle, Save, Trash2, Zap } from "lucide-react";
 import { GoogleGenAI, Type } from "@google/genai";
 import ReactMarkdown from "react-markdown";
@@ -773,7 +775,7 @@ export default function Courses() {
     const progressPercent = getProgressPercentage(selectedCourse);
 
     return (
-      <div className="pt-20 min-h-screen bg-black">
+      <div className="pt-4 min-h-screen bg-transparent">
         <div className="container mx-auto px-4 flex flex-col lg:flex-row gap-8 pb-20">
           {/* Main Content Area */}
           <div className="flex-1 max-w-4xl">
@@ -951,7 +953,7 @@ export default function Courses() {
     const progress = userProgress[selectedCourse.id] || { completedModules: [], lastModuleIndex: 0 };
     
     return (
-      <div className="pt-24 pb-20">
+      <div className="pt-4 pb-20">
         <div className="container mx-auto px-4 max-w-4xl">
           <button 
             onClick={() => setSelectedCourse(null)}
@@ -1069,7 +1071,7 @@ export default function Courses() {
   }
 
   return (
-    <div className="pt-24 pb-20">
+    <div className="pt-4 pb-20">
       <div className="container mx-auto px-4">
         {/* Academy Header with Stats */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 max-w-7xl mx-auto border-b border-white/10 pb-12 gap-8">
@@ -1168,55 +1170,60 @@ export default function Courses() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.05 }}
-                whileHover={{ y: -5 }}
                 onClick={() => setSelectedCourse(course)}
-                className={`p-6 md:p-8 rounded-[32px] bg-white/5 border border-white/10 hover:border-brand/40 transition-all group relative overflow-hidden cursor-pointer flex flex-col`}
+                className="h-full"
               >
-                {/* Header */}
-                <div className="flex justify-between items-start mb-6">
-                  <div className="text-4xl p-3 rounded-2xl bg-black border border-white/5 group-hover:scale-110 transition-transform">
-                    {course.icon}
-                  </div>
-                  <div className="flex flex-col items-end gap-1">
-                    <span className="text-[10px] font-bold text-orange-400 bg-orange-400/10 border border-orange-400/20 px-2 py-0.5 rounded-md uppercase tracking-wider">
-                      {course.level}
-                    </span>
-                    <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">
-                      📚 {course.modules} módulos
-                    </span>
-                  </div>
-                </div>
-
-                {/* Progress Bar Mini */}
-                {progPercent > 0 && (
-                  <div className="mb-4">
-                    <div className="flex justify-between text-[10px] font-bold text-brand uppercase mb-1">
-                      <span>Seu Progresso</span>
-                      <span>{progPercent}%</span>
+                <GlowCard 
+                  glowColor={course.category === "Programação" ? "blue" : course.category === "Idiomas" ? "orange" : "purple"}
+                  customSize
+                  className="p-6 md:p-8 rounded-[32px] bg-white/5 border border-white/10 hover:border-brand/40 transition-all group relative overflow-hidden cursor-pointer flex flex-col h-full"
+                >
+                  {/* Header */}
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="text-4xl p-3 rounded-2xl bg-black border border-white/5 group-hover:scale-110 transition-transform">
+                      {course.icon}
                     </div>
-                    <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                      <div className="h-full bg-brand" style={{ width: `${progPercent}%` }}></div>
+                    <div className="flex flex-col items-end gap-1">
+                      <span className="text-[10px] font-bold text-orange-400 bg-orange-400/10 border border-orange-400/20 px-2 py-0.5 rounded-md uppercase tracking-wider">
+                        {course.level}
+                      </span>
+                      <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">
+                        📚 {course.modules} módulos
+                      </span>
                     </div>
                   </div>
-                )}
 
-                {/* Title & Desc */}
-                <h3 className="text-2xl font-bold mb-3 group-hover:text-brand transition-colors line-clamp-2">
-                  {course.title}
-                </h3>
-                <p className="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
-                  {course.description}
-                </p>
+                  {/* Progress Bar Mini */}
+                  {progPercent > 0 && (
+                    <div className="mb-4">
+                      <div className="flex justify-between text-[10px] font-bold text-brand uppercase mb-1">
+                        <span>Seu Progresso</span>
+                        <span>{progPercent}%</span>
+                      </div>
+                      <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                        <div className="h-full bg-brand" style={{ width: `${progPercent}%` }}></div>
+                      </div>
+                    </div>
+                  )}
 
-                {/* Footer */}
-                <div className="flex items-center justify-between border-t border-white/10 pt-6 mt-auto">
-                  <div className="flex items-center gap-1.5 text-brand text-[10px] font-bold uppercase tracking-widest">
-                    <CheckCircle2 size={12} /> {progPercent === 100 ? "Concluído" : "Grátis"}
+                  {/* Title & Desc */}
+                  <h3 className="text-2xl font-bold mb-3 group-hover:text-brand transition-colors line-clamp-2 text-white">
+                    {course.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
+                    {course.description}
+                  </p>
+
+                  {/* Footer */}
+                  <div className="flex items-center justify-between border-t border-white/10 pt-6 mt-auto">
+                    <div className="flex items-center gap-1.5 text-brand text-[10px] font-bold uppercase tracking-widest">
+                      <CheckCircle2 size={12} /> {progPercent === 100 ? "Concluído" : "Grátis"}
+                    </div>
+                    <button className="flex items-center gap-1 text-sm font-bold hover:gap-2 transition-all group-hover:text-brand text-white">
+                      {progPercent > 0 ? "Continuar" : "Começar"} <ArrowRight size={16} />
+                    </button>
                   </div>
-                  <button className="flex items-center gap-1 text-sm font-bold hover:gap-2 transition-all group-hover:text-brand">
-                    {progPercent > 0 ? "Continuar" : "Começar"} <ArrowRight size={16} />
-                  </button>
-                </div>
+                </GlowCard>
               </motion.div>
             );
           })}

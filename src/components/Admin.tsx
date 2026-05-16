@@ -144,38 +144,38 @@ export default function Admin() {
   const historyConsultations = consultations.filter(c => c.status !== "pendente");
   
   return (
-    <div className="min-h-screen pt-24 pb-20 px-6 bg-[#050505]">
+    <div className="min-h-screen pt-24 pb-20 px-6 bg-transparent">
       <div className="max-w-7xl mx-auto">
         <header className="mb-12">
-          <div className="flex items-center gap-4 mb-4">
-             <ShieldCheck size={32} className="text-brand" />
-             <h1 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-none">
+          <div className="flex items-center gap-3 mb-4">
+             <ShieldCheck size={28} className="text-brand shrink-0" />
+             <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-none">
                 Painel <span className="text-brand">Admin</span>
              </h1>
           </div>
-          <p className="text-gray-500 text-lg md:text-2xl font-light">
+          <p className="text-gray-500 text-base md:text-2xl font-light">
              Gerencie consultas agendadas e candidaturas às vagas
           </p>
         </header>
 
         {/* Tabs */}
-        <div className="flex flex-wrap gap-2 mb-10 p-1.5 bg-white/5 rounded-2xl w-fit border border-white/10">
+        <div className="flex items-center gap-2 mb-10 p-1.5 bg-white/5 rounded-2xl w-full md:w-fit border border-white/10 overflow-x-auto no-scrollbar scroll-smooth">
           {[
-            { id: "consultas", label: `Em Andamento(${activeConsultations.length})`, icon: Calendar },
+            { id: "consultas", label: `Fila (${activeConsultations.length})`, icon: Calendar },
             { id: "historico", label: `Histórico (${historyConsultations.length})`, icon: History },
-            { id: "candidaturas", label: `Candidaturas (${applications.length})`, icon: Briefcase },
+            { id: "candidaturas", label: `Vagas (${applications.length})`, icon: Briefcase },
             { id: "leads", label: `Leads (${consultations.length})`, icon: Users },
           ].map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveSubTab(tab.id as any)}
-              className={`flex items-center gap-2 px-6 h-12 rounded-xl text-sm font-black uppercase tracking-widest transition-all ${
+              className={`flex items-center gap-2 px-4 md:px-6 h-12 rounded-xl text-[10px] md:text-sm font-black uppercase tracking-widest transition-all whitespace-nowrap snap-start ${
                 activeSubTab === tab.id 
                   ? "bg-brand text-black shadow-[0_0_20px_rgba(132,204,22,0.3)]" 
                   : "text-gray-500 hover:text-white"
               }`}
             >
-              <tab.icon size={18} />
+              <tab.icon size={16} />
               {tab.label}
             </button>
           ))}
@@ -278,7 +278,7 @@ export default function Admin() {
               className="grid grid-cols-1 md:grid-cols-3 gap-6"
             >
               {consultations.map(item => (
-                <div key={item.id} className="p-8 rounded-3xl bg-[#0a0a0a] border border-white/5 flex flex-col group hover:border-brand/30 transition-all">
+                <div key={item.id} className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 flex flex-col group hover:border-brand/30 transition-all">
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h3 className="text-xl font-black text-white uppercase mb-1 leading-tight">{item.name}</h3>
@@ -348,7 +348,7 @@ export default function Admin() {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-2xl bg-[#0a0a0a] rounded-3xl border border-white/10 shadow-2xl overflow-hidden"
+              className="relative w-full max-w-2xl bg-zinc-950/90 backdrop-blur-3xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden"
             >
               <div className="p-8 pb-4 flex justify-between items-center border-b border-white/5">
                 <h2 className="text-2xl font-black text-white uppercase tracking-tighter">
@@ -434,7 +434,7 @@ function EmptyState({ icon: Icon, text }: { icon: any, text: string }) {
 
 function LeadCard({ item, onUpdate }: { item: Consultation, onUpdate: (status: string) => void }) {
   return (
-    <div className="p-8 rounded-3xl bg-[#0a0a0a] border border-white/5 group hover:border-brand/20 transition-all">
+    <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 group hover:border-brand/20 transition-all">
        <div className="flex justify-between items-start mb-6">
           <h3 className="text-2xl font-black text-white uppercase leading-tight">{item.name}</h3>
           <div className="flex gap-2">
@@ -474,7 +474,7 @@ function LeadCard({ item, onUpdate }: { item: Consultation, onUpdate: (status: s
 
 function HistoryCard({ item }: { item: Consultation }) {
   return (
-    <div className="p-8 rounded-3xl bg-[#0a0a0a] border border-white/5 opacity-80">
+    <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 opacity-80">
        <div className="flex justify-between items-start mb-6">
           <div>
             <h3 className="text-xl font-black text-white uppercase mb-1 leading-tight">{item.name}</h3>
@@ -508,7 +508,7 @@ function ApplicationCard({ item, onUpdate }: { item: Application, onUpdate: (sta
     <>
        <div 
         onClick={() => setIsDetailOpen(true)}
-        className="p-8 rounded-3xl bg-[#0a0a0a] border border-white/5 group hover:border-brand/20 transition-all cursor-pointer"
+        className="p-8 rounded-3xl bg-white/[0.02] border border-white/5 group hover:border-brand/20 transition-all cursor-pointer"
        >
           <div className="flex justify-between items-center mb-6">
              <h3 className="text-2xl font-black text-white leading-tight">{item.name}</h3>
@@ -543,7 +543,7 @@ function ApplicationCard({ item, onUpdate }: { item: Application, onUpdate: (sta
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                className="relative w-full max-w-2xl bg-[#0a0a0a] rounded-3xl border border-white/10 shadow-2xl p-8"
+                className="relative w-full max-w-2xl bg-zinc-950/90 backdrop-blur-3xl rounded-3xl border border-white/10 shadow-2xl p-8"
               >
                   <div className="flex justify-between items-start mb-8">
                      <div>

@@ -231,7 +231,7 @@ export function MeshGradient({
       vec3 color = mix(uColor1, uColor2, vUv.x);
       color = mix(color, uColor3, vUv.y);
       color = mix(color, uColor4, noise);
-      gl_FragColor = vec4(color, 1.0);
+      gl_FragColor = vec4(color, 0.4);
     }
   `;
 

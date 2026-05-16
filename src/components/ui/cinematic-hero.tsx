@@ -82,9 +82,10 @@ const INJECTED_STYLES = `
   }
 
   .premium-depth-card {
-      background: linear-gradient(145deg, #0a0a0a 0%, #000000 100%);
+      background: linear-gradient(145deg, rgba(10, 10, 10, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%);
+      backdrop-filter: blur(20px);
       box-shadow: 
-          0 40px 100px -20px rgba(0, 0, 0, 0.9),
+          0 40px 100px -20px rgba(0, 0, 0, 0.6),
           inset 0 1px 2px rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(132, 204, 22, 0.1);
       position: relative;
@@ -261,8 +262,8 @@ export function CinematicHero({
             <EnergyRing radius={5} color="#84cc16" position={[0, 0, -1]} />
           </Suspense>
         </Canvas>
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-60" />
-        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/20 opacity-20" />
+        <div className="absolute inset-0 bg-black/5" />
       </div>
 
       <div className="film-grain" aria-hidden="true" />

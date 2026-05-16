@@ -66,7 +66,7 @@ export default function Hero({ onViewPortfolio }: HeroProps) {
   ];
 
   return (
-    <section id="hero" className="relative min-h-screen flex flex-col items-center justify-start overflow-hidden pt-12 md:pt-20">
+    <section id="hero" className="relative min-h-screen flex flex-col items-center justify-start overflow-hidden pt-0 md:pt-20">
       {/* Cosmic Parallax Background */}
       <CosmicParallaxBg 
         head="Transforme Seu" 
@@ -101,16 +101,17 @@ export default function Hero({ onViewPortfolio }: HeroProps) {
         </div>
 
         {/* Animated Title Section */}
-        <div className="w-full flex flex-col items-center py-8">
+        <div className="w-full flex-col items-center py-4 md:py-8 flex">
            <motion.h2 
              id="title"
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.8 }}
+             className="text-white/40 text-[10px] md:text-5xl font-black uppercase tracking-[0.5em] md:tracking-normal"
            >
              TRANSFORME SEU
            </motion.h2>
-           <div id="subtitle-container">
+           <div id="subtitle-container" className="hidden md:block">
               <span className="subtitle-part-1">NEGÓCIO DIGITAL</span>
               <span className="subtitle-part-2"> RESULTADOS REAIS </span>
               <span className="subtitle-part-3"> INOVAÇÃO </span>
@@ -118,11 +119,11 @@ export default function Hero({ onViewPortfolio }: HeroProps) {
            </div>
         </div>
 
-        <div className="pointer-events-auto w-full max-w-4xl mt-12">
+        <div className="pointer-events-auto w-full max-w-4xl mt-6 md:mt-12">
           <p
-            className="max-w-2xl mx-auto text-lg md:text-xl text-gray-100 mb-10 leading-relaxed font-semibold drop-shadow-lg"
+            className="max-w-2xl mx-auto text-sm md:text-xl text-white/30 md:text-gray-100 mb-10 leading-relaxed font-semibold drop-shadow-lg"
           >
-            Criamos plataformas web e identidade visual que geram resultados reais. <br />
+            Criamos plataformas web e identidade visual que geram resultados reais. <br className="hidden md:block" />
             <span className="text-brand">Da ideia ao lançamento, sua visão ganha vida.</span>
           </p>
 
@@ -150,22 +151,31 @@ export default function Hero({ onViewPortfolio }: HeroProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.8 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
+            className="flex flex-col items-center justify-center gap-6 mb-16 w-full max-w-xs mx-auto"
           >
             <button 
               onClick={() => setIsModalOpen(true)}
-              className="h-14 px-10 rounded-xl bg-brand text-black font-bold flex items-center gap-2 hover:bg-brand/90 transition-all shadow-[0_0_20px_rgba(132,204,22,0.4)] group"
+              className="w-full h-16 md:h-20 rounded-xl bg-[#84cc16] text-[#050505] font-black text-xl md:text-2xl flex items-center justify-center gap-3 hover:scale-105 active:scale-95 transition-all shadow-[0_15px_40px_rgba(132,204,22,0.4)] group"
             >
-              <Calendar size={20} />
+              <Calendar size={24} />
               Agendar Consulta
-              <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              <ChevronRight size={22} className="group-hover:translate-x-1 transition-transform" />
             </button>
             
             <button 
               onClick={onViewPortfolio}
-              className="h-14 px-10 rounded-xl bg-white text-black font-bold border border-brand/20 hover:bg-white/90 transition-all"
+              className="w-full h-16 md:h-20 rounded-2xl bg-white text-[#84cc16] font-black text-xl md:text-2xl shadow-[0_10px_30px_rgba(255,255,255,0.1)] active:scale-95 transition-all flex items-center justify-center"
             >
               Ver Portfólio
+            </button>
+
+            <button 
+              className="w-full h-16 md:h-20 rounded-2xl bg-white flex items-center justify-center gap-3 shadow-[0_10px_30px_rgba(168,85,247,0.2)] active:scale-95 transition-all border border-purple-500/10"
+            >
+              <span className="text-xl">🎓</span>
+              <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent font-black text-xl md:text-2xl">
+                Academia Grátis
+              </span>
             </button>
           </motion.div>
 

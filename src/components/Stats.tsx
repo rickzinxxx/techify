@@ -36,9 +36,9 @@ export default function Stats() {
   ];
 
   return (
-    <section className="py-24 border-y border-white/5 bg-white/[0.01]">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10">
+    <section className="py-20 md:py-24 border-y border-white/5 bg-transparent relative overflow-hidden">
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid grid-cols-3 divide-x divide-white/10">
           {stats.map((stat, idx) => (
             <motion.div 
               key={idx}
@@ -46,16 +46,17 @@ export default function Stats() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.2 }}
-              className="text-center py-12 md:py-0 px-8"
+              className="text-center px-2 flex flex-col items-center"
             >
-              <div className="text-4xl md:text-5xl font-black text-brand neon-glow mb-4 tracking-tighter">
+              <div className="text-3xl sm:text-4xl md:text-6xl font-black text-brand mb-2 tracking-tighter drop-shadow-[0_0_15px_rgba(132,204,22,0.5)]">
                 <Counter value={stat.value} />
               </div>
-              <div className="text-white font-black uppercase tracking-[0.2em] text-[10px] md:text-xs opacity-40">{stat.label}</div>
+              <div className="text-white font-black uppercase tracking-widest text-[9px] md:text-xs opacity-40">{stat.label}</div>
             </motion.div>
           ))}
         </div>
       </div>
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand/5 blur-[100px] -z-10 rounded-full" />
     </section>
   );
 }

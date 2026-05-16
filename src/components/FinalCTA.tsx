@@ -13,7 +13,7 @@ export default function FinalCTA({ onViewPortfolio }: { onViewPortfolio?: () => 
   ];
 
   return (
-    <section className="relative pt-24 pb-12 bg-black overflow-hidden">
+    <section className="relative pt-24 pb-12 bg-transparent overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-brand/50 to-transparent opacity-50" />
       
       <div className="container mx-auto px-4 relative z-10">
