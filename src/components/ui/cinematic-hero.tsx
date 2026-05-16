@@ -253,7 +253,7 @@ export function CinematicHero({
       
       {/* Three.js Background Shader */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <Canvas camera={{ position: [0, 0, 10], fov: 60 }} gl={{ alpha: true }}>
+        <Canvas camera={{ position: [0, 0, 10], fov: 60 }} gl={{ alpha: true, antialias: false }} dpr={[1, 1.5]} performance={{ min: 0.5 }}>
           <Suspense fallback={null}>
             <fog attach="fog" args={["#000000", 5, 20]} />
             <MeshGradient colors={["#000000", "#1a1a1a", "#051505", "#84cc16"]} speed={0.4} />

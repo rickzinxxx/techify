@@ -101,7 +101,7 @@ export default function App() {
     <div className="min-h-screen flex flex-col bg-transparent text-white selection:bg-brand/30 relative">
       <SmokeyBackground backdropBlurAmount="3xl" color="#84cc16" opacity={0.8} />
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <main className="flex-1 pt-16 md:pt-0 pb-36 md:pb-0 relative z-10">
+      <main className="flex-1 pt-16 md:pt-0 pb-32 md:pb-0 relative z-10">
         {renderContent()}
       </main>
       <Suspense fallback={null}>

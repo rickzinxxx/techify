@@ -163,60 +163,60 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
         )}
       </AnimatePresence>
 
-      {/* High-Fidelity Mobile Floating Navigation (Segmented Tab Bar) */}
-      <div className="md:hidden fixed bottom-10 left-4 right-4 z-[1000] flex flex-col items-center gap-4">
-        <div className="w-full max-w-sm bg-[#0f0f0f]/60 backdrop-blur-2xl border border-white/5 rounded-2xl p-1.5 flex items-stretch shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden group">
-          {/* Subtle internal glow */}
-          <div className="absolute inset-0 bg-brand/5 pointer-events-none opacity-50" />
-          
+      {/* High-Fidelity Mobile Floating Navigation (Advanced Tab System) */}
+      <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[1900] w-[92%] max-w-sm">
+        <motion.div 
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="bg-black/80 backdrop-blur-3xl border border-white/10 rounded-full p-2 flex items-center justify-between shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] relative"
+        >
           {[
             { label: "Home", icon: Home, target: "Início" },
-            { label: "Web", icon: Globe, target: "Portfólio" },
-            { label: "Vagas", icon: Briefcase, target: "Carreiras" },
-            { label: "Apps", icon: Zap, target: "Serviços" },
+            { label: "Portfolio", icon: Globe, target: "Portfólio" },
+            { label: "Cursos", icon: GraduationCap, target: "Cursos" },
+            { label: "Carreiras", icon: Briefcase, target: "Carreiras" },
+            { label: "Menu", icon: Menu, target: "MENU_TRIGGER" },
           ].map((item) => {
             const isActive = activeTab === item.target;
+            const isMenu = item.target === "MENU_TRIGGER";
+            
             return (
               <button
                 key={item.label}
-                onClick={() => handleMobileNav(item.target)}
-                className={`flex-1 flex flex-col items-center justify-center py-3.5 px-1 transition-all duration-500 relative z-10 gap-1.5 rounded-xl ${
-                  isActive 
-                    ? "bg-brand scale-[1.02] shadow-[0_0_25px_rgba(132,204,22,0.4)]" 
-                    : "bg-transparent"
+                onClick={() => isMenu ? setIsMenuOpen(true) : handleMobileNav(item.target!)}
+                className={`relative flex-1 flex flex-col items-center justify-center py-3 px-1 transition-all duration-300 gap-1 rounded-full ${
+                  isActive ? "text-brand" : "text-white/40 active:text-white"
                 }`}
               >
                 <item.icon 
-                  size={20} 
-                  strokeWidth={isActive ? 3 : 2} 
-                  className={isActive ? "text-white" : "text-brand/30"} 
+                  size={isActive ? 24 : 20} 
+                  strokeWidth={isActive ? 2.5 : 2} 
+                  className={isActive ? "drop-shadow-[0_0_8px_rgba(132,204,22,0.6)]" : ""} 
                 />
-                <span className={`text-[9px] uppercase font-black tracking-widest leading-none ${
-                    isActive ? "text-white" : "text-brand/20"
-                }`}>
-                  {item.label}
-                </span>
                 
-                {/* Active Highlight Animation */}
                 {isActive && (
                   <motion.div 
-                    layoutId="segmented-active"
-                    className="absolute inset-0 bg-brand rounded-xl -z-10"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
+                    layoutId="mobile-nav-pill"
+                    className="absolute inset-0 bg-brand/5 rounded-full -z-10 border border-brand/20"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
+                
+                {/* Visual dot for active or active interaction indicators */}
+                <AnimatePresence>
+                  {isActive && (
+                    <motion.div 
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      className="absolute -bottom-1 w-1 h-1 bg-brand rounded-full"
+                    />
+                  )}
+                </AnimatePresence>
               </button>
             );
           })}
-        </div>
-        
-        {/* Captions */}
-        <div className="flex flex-col items-center gap-1">
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
-            Techify Digital Experience
-          </p>
-          <div className="w-12 h-0.5 bg-brand/20 rounded-full" />
-        </div>
+        </motion.div>
       </div>
 
     </>

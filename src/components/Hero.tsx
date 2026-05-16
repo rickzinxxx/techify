@@ -107,7 +107,7 @@ export default function Hero({ onViewPortfolio }: HeroProps) {
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.8 }}
-             className="text-white/40 text-[10px] md:text-5xl font-black uppercase tracking-[0.5em] md:tracking-normal"
+             className="text-white/40 text-xl md:text-5xl font-black uppercase tracking-[0.5em] md:tracking-normal"
            >
              TRANSFORME SEU
            </motion.h2>
